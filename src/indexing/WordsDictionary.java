@@ -1,22 +1,26 @@
 package indexing;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class WordsDictionary implements Dictionary{
-    private HashMap<String, Word> dictionary;
+    private ConcurrentHashMap<String, Word> dictionary;
 
-    public WordsDictionary(HashMap<String, Word> dictionary){
+    public WordsDictionary(ConcurrentHashMap<String, Word> dictionary){
         this.dictionary = dictionary;
     }
 
-    public synchronized void add(String word, String path, int positionInFile){
-        Word obj = dictionary.get(word);
+    public void add(String word, String path, int positionInFile){
+        /*Word obj = dictionary.get(word);
         if(obj == null){
             obj = new Word(word);
+            dictionary.put(word, obj);
         }
 
-        obj.add(path, positionInFile);
-        dictionary.put(word, obj);
+        obj.add(path, positionInFile);*/
+
+        Word x = dictionary.putIfAbsent(word, new Word(word, path, positionInFile));
+        if (x != null) x.add(path, positionInFile);
     }
 
     public Map<String, List<Integer>> getPositionsOfTheWord(String word){
@@ -25,7 +29,7 @@ public class WordsDictionary implements Dictionary{
 
     @Override
     public HashMap<String, ? extends PDFComponent> getDictionary() {
-        return dictionary;
+        return new HashMap<>(dictionary);
     }
 
     @Override

@@ -2,27 +2,31 @@ package indexing;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AuthorDictionary implements Dictionary {
-    private HashMap<String, Author> dictionary;
+    private ConcurrentHashMap<String, Author> dictionary;
 
-    public AuthorDictionary(HashMap<String, Author> dictionary){
+    public AuthorDictionary(ConcurrentHashMap<String, Author> dictionary){
         this.dictionary = dictionary;
     }
 
-    public synchronized void add(String author, String path){
-        Author obj = dictionary.get(author);
+    public void add(String author, String path){
+        /*Author obj = dictionary.get(author);
         if(obj == null){
             obj = new Author(author);
         }
 
         obj.add(path);
-        dictionary.put(author, obj);
+        dictionary.put(author, obj);*/
+
+        Author x = dictionary.putIfAbsent(author, new Author(author, path));
+        if (x != null) x.add(path);
     }
 
     @Override
     public HashMap<String, ? extends PDFComponent> getDictionary() {
-        return dictionary;
+        return new HashMap<>(dictionary);
     }
 
     @Override

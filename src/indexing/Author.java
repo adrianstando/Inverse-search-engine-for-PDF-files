@@ -1,21 +1,28 @@
 package indexing;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
 public class Author implements PDFComponent{
     private String author;
-    private List<String> files = new LinkedList<>();
+    private LinkedBlockingQueue<String> files = new LinkedBlockingQueue<>();
 
     public Author(String author){
         this.author = author;
     }
 
-    public synchronized void add(String path){
-        files.add(path);
+    public Author(String author, String path){
+        this.author = author;
+        add(path);
+    }
+
+    public void add(String path){
+        try {
+            files.put(path);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -5,13 +5,14 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Controller {
     private final static String poison = "THIS_IS_THE_END.non_existing_extension";
 
     public static void main(String[] args){
-        String pathZero = "./dysk";
+        String pathZero = "./dysk0";
         int numberOfReadingThreads = 2;
         int numberOfIndexingThreads = 4;
 
@@ -62,10 +63,10 @@ public class Controller {
 
 
 
-        HashMap<String, Word> map = new HashMap<>();
+        ConcurrentHashMap<String, Word> map = new ConcurrentHashMap<>();
         WordsDictionary wordsDictionary = new WordsDictionary(map);
 
-        HashMap<String, Author> map1 = new HashMap<>();
+        ConcurrentHashMap<String, Author> map1 = new ConcurrentHashMap<>();
         AuthorDictionary authorDictionary = new AuthorDictionary(map1);
 
         Thread[] indexingThreads = new Thread[numberOfIndexingThreads];
