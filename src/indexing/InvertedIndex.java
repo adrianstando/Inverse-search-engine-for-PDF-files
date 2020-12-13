@@ -5,6 +5,9 @@ import files.FileContent;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Stream;
 
+/**
+ * Class builds inverted index from given data.
+ */
 public class InvertedIndex implements Runnable{
     private BlockingQueue<FileContent> filesContent;
     private WordsDictionary wordsDictionary;
@@ -24,6 +27,12 @@ public class InvertedIndex implements Runnable{
         this.authorDictionary = authorDictionary;
     }
 
+    /**
+     * Method build Inverted Index from the objects from fileContent queue and puts data
+     * to wordDictionary and authorDictionary.
+     *
+     * @throws InterruptedException
+     */
     private void buildIndex() throws InterruptedException {
         FileContent fileContent = filesContent.take();
         if (fileContent.getFile().getName().equals(poison)){
@@ -47,7 +56,9 @@ public class InvertedIndex implements Runnable{
         intPositionInFile = -1;
     }
 
-
+    /**
+     * Program builds index in it's own thread.
+     */
     @Override
     public void run() {
         while (running){
@@ -60,10 +71,19 @@ public class InvertedIndex implements Runnable{
 
     }
 
+    /**
+     * Method stops building index.
+     */
     public void stop(){
         running = false;
     }
 
+    /**
+     * Additional method required for stream in buildIndex() methos.
+     * Returns position in file which is being read.
+     *
+     * @return position in file
+     */
     private int iterator(){
         intPositionInFile++;
         return intPositionInFile;

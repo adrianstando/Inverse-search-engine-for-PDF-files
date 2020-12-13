@@ -3,6 +3,10 @@ package indexing;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Class represents dictionary of words - it stores all words and information about them.
+ */
+
 public class WordsDictionary implements Dictionary{
     private ConcurrentHashMap<String, Word> dictionary;
 
@@ -10,6 +14,13 @@ public class WordsDictionary implements Dictionary{
         this.dictionary = dictionary;
     }
 
+    /**
+     * This method adds to dictionary new information about a word.
+     *
+     * @param word
+     * @param path
+     * @param positionInFile
+     */
     public void add(String word, String path, int positionInFile){
         /*Word obj = dictionary.get(word);
         if(obj == null){
@@ -27,8 +38,7 @@ public class WordsDictionary implements Dictionary{
         return dictionary.get(word).getAllFilesWithPositions();
     }
 
-    @Override
-    public HashMap<String, ? extends PDFComponent> getDictionary() {
+    public HashMap<String, Word> getDictionary() {
         return new HashMap<>(dictionary);
     }
 

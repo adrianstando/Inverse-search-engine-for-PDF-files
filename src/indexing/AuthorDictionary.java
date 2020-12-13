@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Class represents dictionary of authors - it stores all authors and information about them.
+ */
 public class AuthorDictionary implements Dictionary {
     private ConcurrentHashMap<String, Author> dictionary;
 
@@ -11,6 +14,12 @@ public class AuthorDictionary implements Dictionary {
         this.dictionary = dictionary;
     }
 
+    /**
+     * This method adds to dictionary new information about an author.
+     *
+     * @param author
+     * @param path
+     */
     public void add(String author, String path){
         /*Author obj = dictionary.get(author);
         if(obj == null){
@@ -24,8 +33,7 @@ public class AuthorDictionary implements Dictionary {
         if (x != null) x.add(path);
     }
 
-    @Override
-    public HashMap<String, ? extends PDFComponent> getDictionary() {
+    public HashMap<String, Author> getDictionary() {
         return new HashMap<>(dictionary);
     }
 

@@ -2,6 +2,10 @@ package files;
 
 import java.io.File;
 
+/**
+ * Class represents the content of the *.pdf file.
+ */
+
 public class FileContent {
     private File file;
     private String content;

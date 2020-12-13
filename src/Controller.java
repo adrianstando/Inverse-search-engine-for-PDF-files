@@ -2,12 +2,14 @@ import files.*;
 import indexing.*;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Class which will be something like API for the Inverted Index program.
+ */
 public class Controller {
     private final static String poison = "THIS_IS_THE_END.non_existing_extension";
 

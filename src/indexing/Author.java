@@ -2,7 +2,10 @@ package indexing;
 
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.stream.Collectors;
+
+/**
+ * Class represents author and the list of .*pdf files created by him / her.
+ */
 
 public class Author implements PDFComponent{
     private String author;
@@ -17,6 +20,11 @@ public class Author implements PDFComponent{
         add(path);
     }
 
+    /**
+     * This method adds new file created by author.
+     *
+     * @param path
+     */
     public void add(String path){
         try {
             files.put(path);

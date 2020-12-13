@@ -4,6 +4,11 @@ import java.io.File;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * Class created so program can find all *.pdf files in pathZero directory an its subdirectories
+ * and put them into files queue.
+ */
+
 public class FileFinder implements Runnable{
     private String pathZero;
     private BlockingQueue<File> files;
@@ -17,6 +22,12 @@ public class FileFinder implements Runnable{
         this.numberOfReaderThreads = numberOfReaderThreads;
     }
 
+    /**
+     * This method searches recursively for files with PDF extension.
+     *
+     * @param directory
+     * @throws InterruptedException
+     */
     private void findAndAddAllPDFFiles(File directory) throws InterruptedException {
         File[] listOfFiles = directory.listFiles();
 
@@ -31,11 +42,23 @@ public class FileFinder implements Runnable{
         }
     }
 
+    /**
+     * Method checks if the File object has .pdf extension.
+     *
+     * @param file
+     * @return isItPDF
+     */
+
     private boolean isPDF(File file){
         String fileName = file.getName();
-        return fileName.matches(".*\\.pdf") || fileName.matches(".*\\.PDF");
+        boolean isItPDF = fileName.matches(".*\\.pdf") || fileName.matches(".*\\.PDF");
+
+        return isItPDF;
     }
 
+    /**
+     * Function searches *.pdf files in its own thread.
+     */
     @Override
     public void run() {
         try {

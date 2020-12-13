@@ -8,8 +8,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * Class enables reading the content from *.pdf files, which were put in files queue.
+ */
+
 public class FileReader implements Runnable {
     private final String poison = "THIS_IS_THE_END.non_existing_extension";
+    private int intPutExtraPoison = 0;
 
     private BlockingQueue<File> files;
     private BlockingQueue<FileContent> filesContent;
@@ -21,6 +26,13 @@ public class FileReader implements Runnable {
         this.filesContent = filesContent;
     }
 
+    /**
+     * This method reads content from next file from queue files and return FileContent object.
+     *
+     * @return FileContent object
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public FileContent getNextFile() throws IOException, InterruptedException {
         File file = files.take();
 
@@ -40,11 +52,20 @@ public class FileReader implements Runnable {
         }
     }
 
-    private int intPutExtraPoison;
+    /**
+     * If there are more indexing threads than reading threads, program can put some extra poison pills. User can set
+     * the number of this extra poison pills by this function.
+     *
+     * @param putExtraPoison
+     */
     public void PutExtraPoison(int putExtraPoison) {
         this.intPutExtraPoison = putExtraPoison;
     }
 
+
+    /**
+     * Program reads from files in its own thread. When content is extracted, it is put in filesContent queue.
+     */
     @Override
     public void run() {
         while(running){
@@ -72,6 +93,9 @@ public class FileReader implements Runnable {
         }
     }
 
+    /**
+     * Function stops thread.
+     */
     public void stop(){
         running = false;
     }
