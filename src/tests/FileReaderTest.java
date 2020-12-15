@@ -29,7 +29,7 @@ class FileReaderTest {
         thread.start();
 
         FileReader fileReader = new FileReader(files, filesContent);
-        fileReader.PutExtraPoison(intPutExtraPoison);
+        fileReader.putExtraPoison(intPutExtraPoison);
 
         Thread threadReading = new Thread(fileReader);
         threadReading.start();
@@ -73,7 +73,7 @@ class FileReaderTest {
             fileReader[i] = new FileReader(files, filesContent);
         }
 
-        fileReader[0].PutExtraPoison(intPutExtraPoison);
+        fileReader[0].putExtraPoison(intPutExtraPoison);
 
         Thread[] threadReading = new Thread[numberOfReadingThreads];
         for (int i = 0; i < numberOfReadingThreads; i++){
@@ -166,8 +166,6 @@ class FileReaderTest {
         for (int i = 0; i < numberOfReadingThreads; i++){
             fileReader[i] = new FileReader(files, filesContent);
         }
-
-        fileReader[0].PutExtraPoison(intPutExtraPoison);
 
         Thread[] threadReading = new Thread[numberOfReadingThreads];
         for (int i = 0; i < numberOfReadingThreads; i++){

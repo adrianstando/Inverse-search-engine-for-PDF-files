@@ -35,7 +35,7 @@ public class Controller {
 
         // jesli mamy wiecej indeksujacych
         if(numberOfIndexingThreads > numberOfReadingThreads){
-            fileReaders[0].PutExtraPoison(numberOfIndexingThreads - numberOfReadingThreads);
+            fileReaders[0].putExtraPoison(numberOfIndexingThreads - numberOfReadingThreads);
         }
 
         fileFinderThread.start();

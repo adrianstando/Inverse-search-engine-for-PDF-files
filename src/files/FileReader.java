@@ -58,7 +58,7 @@ public class FileReader implements Runnable {
      *
      * @param putExtraPoison
      */
-    public void PutExtraPoison(int putExtraPoison) {
+    public void putExtraPoison(int putExtraPoison) {
         this.intPutExtraPoison = putExtraPoison;
     }
 
