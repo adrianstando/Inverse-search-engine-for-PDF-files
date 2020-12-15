@@ -41,7 +41,7 @@ public class InvertedIndex implements Runnable{
             String path = fileContent.getFile().getPath();
 
             String text = fileContent.getContent();
-            text = text.replaceAll("[^(\\p{Blank} | \\p{IsAlphabetic} )]", " ");
+            text = text.replaceAll("[^(\\p{Blank} | \\p{IsAlphabetic} | \\p{Digit})]", " ");
             text = text.replaceAll("\\p{Punct}", " ");
             text = text.replaceAll("\\s+"," ");
             //System.out.println(text);

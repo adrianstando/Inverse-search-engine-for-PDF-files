@@ -10,6 +10,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Class which will be something like API for the Inverted Index program.
  */
+
+// pamietaj tutaj o nullach
 public class Controller {
     private final static String poison = "THIS_IS_THE_END.non_existing_extension";
 
