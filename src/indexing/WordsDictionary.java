@@ -52,6 +52,10 @@ public class WordsDictionary implements Dictionary{
         return dictionary.get(object).getFilesConnectedWith();
     }
 
+    public List<Integer> getPositionsOfWordInPath(String word, String path){
+        return dictionary.get(word).getPositionsOfTheWordInFile(path);
+    }
+
     @Override
     public String toString() {
         StringBuilder text = new StringBuilder("Words Dictionary: " + System.lineSeparator());
