@@ -80,6 +80,7 @@ public class Word implements PDFComponent{
             out.put(entry.getKey(), new ArrayList<>(entry.getValue()));
         }
 
+        this.outputPositionsNeedsUpdate.set(false);
         this.outputPositions = out;
         return out;
     }
