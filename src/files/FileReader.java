@@ -100,8 +100,8 @@ public class FileReader implements Runnable {
         running = false;
     }
 
-    public static void main(String[] args){
+    /*public static void main(String[] args){
         File file = new File("non.existing.file");
         System.out.println(file.getPath());
-    }
+    }*/
 }

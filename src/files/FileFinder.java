@@ -76,7 +76,7 @@ public class FileFinder implements Runnable{
 
     }
 
-    public static void main(String[] args){
+    /*public static void main(String[] args){
         BlockingQueue<File> files = new ArrayBlockingQueue<>(10);
 
         String currentDirectory = System.getProperty("user.dir");
@@ -94,5 +94,5 @@ public class FileFinder implements Runnable{
         }
 
         System.out.println(files);
-    }
+    }*/
 }
