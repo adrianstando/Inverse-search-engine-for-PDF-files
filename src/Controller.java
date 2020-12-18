@@ -3,8 +3,7 @@ import files.FileReader;
 import indexing.*;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -127,6 +126,21 @@ public class Controller {
         // i tam gdzie nowa linia, dodajmy spację, by rozdzielic slowa
         out = out.replaceAll("\n", " \n");
         //System.out.println("’".matches("(\n | \\p{Blank} | \\p{IsAlphabetic} | \\p{Digit} | \\p{Punct})")); */
+
+
+        List<Integer> x = new LinkedList<>();
+        x.add(1);
+        x.add(2);
+        x.add(1);
+        x.add(10);
+        x.add(2);
+        x.add(2);
+        x.add(10);
+
+        System.out.println(x);
+
+        Set<Map.Entry<Integer, Long>> b = x.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting())).entrySet();
+        System.out.println(b);
     }
 
 

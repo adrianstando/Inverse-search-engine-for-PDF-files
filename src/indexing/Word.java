@@ -95,4 +95,8 @@ public class Word implements PDFComponent{
     private void outputNeedToBeUpdated(){
         this.outputPositionsNeedsUpdate.set(true);
     }
+
+    public String getWord() {
+        return word;
+    }
 }
