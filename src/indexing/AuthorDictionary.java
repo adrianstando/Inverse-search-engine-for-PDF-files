@@ -29,6 +29,8 @@ public class AuthorDictionary implements Dictionary {
         obj.add(path);
         dictionary.put(author, obj);*/
 
+        if (author.equals("")) return;
+
         Author x = dictionary.putIfAbsent(author, new Author(author, path));
         if (x != null) x.add(path);
     }

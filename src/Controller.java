@@ -16,7 +16,8 @@ public class Controller {
     private final static String poison = "THIS_IS_THE_END.non_existing_extension";
 
     public static void main(String[] args){
-        String pathZero = "./dysk0";
+        //String pathZero = "./dysk0";
+        String pathZero = "./src/tests/testFiles/folder3";
         int numberOfReadingThreads = 2;
         int numberOfIndexingThreads = 4;
 
@@ -104,5 +105,13 @@ public class Controller {
         System.out.println(authorDictionary.toString());
         System.out.println(wordsDictionary.toString());
 
+        /*String out  = "aren't able parents' x''d''s";
+
+        out = out.replaceAll("[^(\n | \\p{Blank} | \\p{IsAlphabetic} | \\p{Digit} | \\p{Punct})]", " ");
+        out = out.replaceAll("\\p{Punct}", "");
+        out = out.replaceAll("[^(\n | \\p{IsAlphabetic} | \\p{Digit})]+", " ");
+        // i tam gdzie nowa linia, dodajmy spację, by rozdzielic slowa
+        out = out.replaceAll("\n", " \n");
+        //System.out.println("’".matches("(\n | \\p{Blank} | \\p{IsAlphabetic} | \\p{Digit} | \\p{Punct})")); */
     }
 }

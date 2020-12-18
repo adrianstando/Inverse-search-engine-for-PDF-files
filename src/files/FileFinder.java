@@ -28,7 +28,7 @@ public class FileFinder implements Runnable{
      * @param directory
      * @throws InterruptedException
      */
-    private void findAndAddAllPDFFiles(File directory) throws InterruptedException {
+    public void findAndAddAllPDFFiles(File directory) throws InterruptedException {
         File[] listOfFiles = directory.listFiles();
 
         if (listOfFiles==null) return;

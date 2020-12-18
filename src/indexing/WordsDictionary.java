@@ -30,6 +30,8 @@ public class WordsDictionary implements Dictionary{
 
         obj.add(path, positionInFile);*/
 
+        if (word.equals("")) return;
+
         Word x = dictionary.putIfAbsent(word, new Word(word, path, positionInFile));
         if (x != null) x.add(path, positionInFile);
     }

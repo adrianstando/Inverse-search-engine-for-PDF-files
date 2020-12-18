@@ -44,7 +44,9 @@ public class FileReader implements Runnable {
             PDFTextStripper pdfTextStripper = new PDFTextStripper();
 
             String author = info.getAuthor();
+            if (author == null) author = "";
             String text = pdfTextStripper.getText(document);
+            if (text == null) text = "";
 
             document.close();
 
