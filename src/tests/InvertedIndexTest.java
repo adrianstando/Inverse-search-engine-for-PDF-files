@@ -20,12 +20,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class InvertedIndexTest {
     private final String poison = "THIS_IS_THE_END.non_existing_extension";
 
-    private static List<String> commonWords = Arrays.stream(new String [] {"a", "able", "about", "all", "an", "and", "any", "are", "as", "at", "be", "been", "by",
+    private static List<String> commonWords = Arrays.stream(new String [] {"a", "able", "about", "all", "an", "and", "any", "are", "aren't", "isn't", "as", "at", "be", "been", "by",
             "can", "can't", "could", "couldn't", "do", "does", "doesn't", "don't", "down", "has", "hasn't", "have", "haven't", "he", "here", "his", "how",
             "I", "I'm", "if", "in", "is", "it", "its", "it's", "just", "like", "many", "much", "no", "not", "now", "of", "on", "one",
             "or", "she", "so", "than", "that", "the", "them", "then", "there", "these", "they", "this", "those", "to", "too", "up", "very", "was", "we", "were",
             "what", "when", "where", "which", "who", "will", "won't", "would", "you", "you'd", "you'll"}).map(String::toLowerCase)
-            .map(r -> r.replaceAll("\\p{Punct} | ’", "")).collect(Collectors.toList());
+            .map(r -> r.replaceAll("[^\\p{IsAlphabetic})]+", "")).collect(Collectors.toList());
 
     @Test
     void invertedIndexTest(){
@@ -100,7 +100,7 @@ class InvertedIndexTest {
             fileReaderThreads[i] = new Thread(fileReaders[i]);
         }
 
-        // jesli mamy wiecej indeksujacych - w przypadku tego testu TAK
+        // in case we have more indexing threads
         if(numberOfIndexingThreads > numberOfReadingThreads){
             fileReaders[0].putExtraPoison(numberOfIndexingThreads - numberOfReadingThreads);
         }
@@ -158,6 +158,85 @@ class InvertedIndexTest {
         for(int i = 0; i < numberOfIndexingThreads; i++){
             assertEquals(Thread.State.TERMINATED, indexingThreads[i].getState());
         }
+    }
+
+    @Test
+    void checkStemming(){
+        String pathZero = "./src/tests/testFiles/folder3";
+        int numberOfReadingThreads = 2;
+        int numberOfIndexingThreads = 3;
+
+
+        BlockingQueue<File> files = new ArrayBlockingQueue<>(1);
+        BlockingQueue<FileContent> filesContent = new LinkedBlockingQueue<>();
+
+
+        FileFinder fileFinder = new FileFinder(pathZero, numberOfReadingThreads, files);
+        Thread fileFinderThread = new Thread(fileFinder);
+
+        Thread[] fileReaderThreads = new Thread[numberOfReadingThreads];
+        FileReader[] fileReaders = new FileReader[numberOfReadingThreads];
+        for(int i = 0; i < numberOfReadingThreads; i++){
+            fileReaders[i] = new FileReader(files, filesContent);
+            fileReaderThreads[i] = new Thread(fileReaders[i]);
+        }
+
+        // in case we have more indexing threads
+        if(numberOfIndexingThreads > numberOfReadingThreads){
+            fileReaders[0].putExtraPoison(numberOfIndexingThreads - numberOfReadingThreads);
+        }
+
+        fileFinderThread.start();
+        for(Thread thread : fileReaderThreads){
+            thread.start();
+        }
+
+
+
+        ConcurrentHashMap<String, Word> map = new ConcurrentHashMap<>();
+        WordsDictionary wordsDictionary = new WordsDictionary(map);
+
+        ConcurrentHashMap<String, Author> map1 = new ConcurrentHashMap<>();
+        AuthorDictionary authorDictionary = new AuthorDictionary(map1);
+
+        Thread[] indexingThreads = new Thread[numberOfIndexingThreads];
+        for(int i = 0; i < numberOfIndexingThreads; i++){
+            indexingThreads[i] = new Thread(new InvertedIndex(filesContent, wordsDictionary, authorDictionary, commonWords));
+            indexingThreads[i].start();
+        }
+
+        try {
+            for(Thread thread : indexingThreads){
+                thread.join();
+            }
+            fileFinderThread.join();
+            for(Thread thread : fileReaderThreads) {
+                thread.join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // no author
+        assertEquals(0, authorDictionary.getAllUniqueKeys().size());
+
+        assertEquals(5, wordsDictionary.getDictionary().keySet().size());
+
+        assertEquals(3, wordsDictionary.getDictionary().get("bla").
+                getPositionsOfTheWordInFile("./src/tests/testFiles/folder3/x.pdf").size());
+
+        /*assertEquals(3, wordsDictionary.getPositionsOfWordInPath("bla", "./src/tests/testFiles/folder1/test.pdf").size());
+        assertEquals(6, wordsDictionary.getPositionsOfWordInPath("bla", "./src/tests/testFiles/folder2/test1.pdf").size());
+
+        assertEquals(Thread.State.TERMINATED, fileFinderThread.getState());
+        for(Thread thread : fileReaderThreads){
+            assertEquals(Thread.State.TERMINATED, thread.getState());
+        }
+        for(int i = 0; i < numberOfIndexingThreads; i++){
+            assertEquals(Thread.State.TERMINATED, indexingThreads[i].getState());
+        }*/
+        System.out.println(wordsDictionary);
+        System.out.println(commonWords);
     }
 
 }
