@@ -3,10 +3,8 @@ package indexing;
 import files.FileContent;
 import org.tartarus.snowball.ext.PorterStemmer;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -23,16 +21,13 @@ public class InvertedIndex implements Runnable{
     private boolean running = true;
     private int intPositionInFile = 0;
 
-    private final List<String> commonWords = Arrays.stream(new String [] {"a", "able", "about", "all", "an", "and", "any", "are", "as", "at", "be", "been", "by",
-            "can", "can't", "could", "couldn't", "do", "does", "doesn't", "don't", "down", "has", "hasn't", "have", "haven't", "he", "here", "his", "how",
-            "I", "I'm", "if", "in", "is", "it", "its", "it's", "just", "like", "many", "much", "no", "not", "now", "of", "on", "one",
-            "or", "she", "so", "than", "that", "the", "them", "then", "there", "these", "they", "this", "those", "to", "too", "up", "very", "was", "we", "were",
-            "what", "when", "where", "which", "who", "will", "won't", "would", "you", "you'd", "you'll"}).map(String::toLowerCase).map(r -> r.replaceAll("\\p{Punct} | ’", "")).collect(Collectors.toList());
+    private final List<String> commonWords;
 
-    public InvertedIndex(BlockingQueue<FileContent> filesContent, WordsDictionary wordsDictionary, AuthorDictionary authorDictionary){
+    public InvertedIndex(BlockingQueue<FileContent> filesContent, WordsDictionary wordsDictionary, AuthorDictionary authorDictionary, List<String> commonWords){
         this.filesContent = filesContent;
         this.wordsDictionary = wordsDictionary;
         this.authorDictionary = authorDictionary;
+        this.commonWords = commonWords;
     }
 
     /**
@@ -124,17 +119,23 @@ public class InvertedIndex implements Runnable{
         if (input == null) return "";
 
         String out = input;
+        // to simplify task below, change single space to double space
         out = out.replaceAll(" ", "  ");
-        // usuwam wszystkie niepotrzebne znaki
+
+        // remove all unwanted chars
         out = out.replaceAll("[^(\n | \\p{Blank} | \\p{IsAlphabetic} | \\p{Digit} | \\p{Punct}| ’)]", " ");
-        // oraz znaki interpunkcyjne
+
+        // and punctuation marks and apostrophes
         out = out.replaceAll("\\p{Punct}", "");
         out = out.replaceAll("’", "");
-        // tam gdzie jest kilka pustych znakow obok siebie (ale bez znaku nowej linii)
-        //text = text.replaceAll("\\s+"," ");
+
+        // replace multiple blank chars (without new line char)
         out = out.replaceAll("[^(\n | \\p{IsAlphabetic} | \\p{Digit})]+", "");
-        // i tam gdzie nowa linia, dodajmy spację, by rozdzielic slowa
+
+        // add space before new line char (\n) so the words won't mix
         out = out.replaceAll("\n", " \n");
+
+        // at the end remove additional multiple blanks (if there are any additional)
         out = out.replaceAll("\\p{Blank}+", " ");
 
         return out;
