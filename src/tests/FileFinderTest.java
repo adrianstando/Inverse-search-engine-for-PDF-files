@@ -29,7 +29,7 @@ class FileFinderTest {
         }
 
         ArrayList<File> list = new ArrayList<>(files);
-        assertEquals(3, list.size()); // dwa pliki plus poison pill
+        assertEquals(4, list.size()); // three files plus poison pill
 
         File file1 = new File("./src/tests/testFiles/folder1/test.pdf");
         File file2 = new File("./src/tests/testFiles/folder2/test1.pdf");
@@ -57,7 +57,7 @@ class FileFinderTest {
         }
 
         ArrayList<File> list = new ArrayList<>(files);
-        assertEquals(5, list.size()); // dwa pliki plus trzy poison pill
+        assertEquals(6, list.size()); // three files plus three poison pills
 
         File file1 = new File("./src/tests/testFiles/folder1/test.pdf");
         File file2 = new File("./src/tests/testFiles/folder2/test1.pdf");

@@ -95,6 +95,7 @@ class FileReaderTest {
         List<FileContent> list = new ArrayList<>(filesContent);
         File file1 = new File("./src/tests/testFiles/folder1/test.pdf");
         File file2 = new File("./src/tests/testFiles/folder2/test1.pdf");
+        File file3 = new File("./src/tests/testFiles/folder3/x.pdf");
         File filePoison = new File(poison);
 
         int k = 0;
@@ -143,11 +144,24 @@ class FileReaderTest {
 
                 String author = "Autor pliku nr 2";
                 assertEquals(x.getAuthor(), author);
-            } else {
+            } else if (x.getFile().equals(file3)){
+                String conent = "They aren’t able to to that. Prent’s bla bla blas’ jkshdkg\n" +
+                        "klhafngsgk\n" +
+                        "dlsgm\n";
+
+                assertEquals(x.getContent(), conent);
+
+                String author = "";
+                assertEquals(x.getAuthor(), author);
+            }
+            else {
                 assertEquals(1, 0);
             }
+
         }
-        assertEquals(4, k); // dwa pliki i dwa poisony z intPutExtraPoison
+
+        // number of poison pills in the output
+        assertEquals(intPutExtraPoison + numberOfReadingThreads, k); // three files and two poison pills from intPutExtraPoison
     }
 
     @Test

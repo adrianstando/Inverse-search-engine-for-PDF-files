@@ -25,7 +25,8 @@ public class Controller {
             "can", "can't", "could", "couldn't", "do", "does", "doesn't", "don't", "down", "has", "hasn't", "have", "haven't", "he", "here", "his", "how",
             "I", "I'm", "if", "in", "is", "it", "its", "it's", "just", "like", "many", "much", "no", "not", "now", "of", "on", "one",
             "or", "she", "so", "than", "that", "the", "them", "then", "there", "these", "they", "this", "those", "to", "too", "up", "very", "was", "we", "were",
-            "what", "when", "where", "which", "who", "will", "won't", "would", "you", "you'd", "you'll"}).map(String::toLowerCase).map(r -> r.replaceAll("\\p{Punct} | ’", "")).collect(Collectors.toList());
+            "what", "when", "where", "which", "who", "will", "won't", "would", "you", "you'd", "you'll"}).map(String::toLowerCase)
+            .map(r -> r.replaceAll("\\p{Punct} | ’", "")).collect(Collectors.toList());
 
 
     public static void main(String[] args){
