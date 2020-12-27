@@ -132,7 +132,6 @@ public class Controller {
 
             return true;
         } catch (IOException e) {
-            System.out.println(e);
             return false;
         }
     }
@@ -159,7 +158,6 @@ public class Controller {
 
             return true;
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println(e);
             return false;
         }
     }
