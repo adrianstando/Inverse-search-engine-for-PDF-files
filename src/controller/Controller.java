@@ -14,10 +14,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
 /**
- * Class which will be something like API for the Inverted Index program.
+ * Class which is something like API for the Inverted Index program.
  */
-
-// pamietaj tutaj o nullach
 public class Controller {
     private final static String poison = "THIS_IS_THE_END.non_existing_extension";
     private WordsDictionary wordsDictionary;
@@ -36,6 +34,10 @@ public class Controller {
 
     }
 
+    /**
+     * Method which builds index from pathZero.
+     * @param pathZero
+     */
     public void createIndex(String pathZero){
         // set number of threads
         int numberOfReadingThreads = 2;
@@ -96,36 +98,68 @@ public class Controller {
         this.search = new Search(authorDictionary, wordsDictionary);
     }
 
+    /**
+     * Method searches file created by author.
+     * @param author
+     * @return list
+     */
     public List<String> searchAuthor(String author){
         List<String> list = search.searchAuthor(author);
         if (list == null) return new ArrayList<>();
         else return list;
     }
 
+    /**
+     * Method searches files which contains word. Method returns list of file paths sorted by number of occurrences.
+     * @param word
+     * @return
+     */
     public List<String> searchOneWord(String word){
         List<String> list = search.searchOneWord(word);
         if (list == null) return new ArrayList<>();
         else return list;
     }
 
+    /**
+     * Method searches files which contains phrase. Method returns list of file paths sorted by number of occurrences.
+     * @param words
+     * @return
+     */
     public List<String> searchPhrase(List<String> words){
         List<String> list = search.searchPhrase(words);
         if (list == null) return new ArrayList<>();
         else return list;
     }
 
+    /**
+     * Method searches files which contains word and which are created by author. Method returns list of file paths sorted by number of occurrences.
+     * @param word
+     * @param author
+     * @return
+     */
     public List<String> searchOneWordAndFilterByAuthor(String word, String author){
         List<String> list = search.searchOneWordAndFilterByAuthor(word, author);
         if (list == null) return new ArrayList<>();
         else return list;
     }
 
+    /**
+     * Method searches files which contains phrase and which are created by author. Method returns list of file paths sorted by number of occurrences.
+     * @param words
+     * @param author
+     * @return
+     */
     public List<String> searchPhraseAndFilterByAuthor(List<String> words, String author){
         List<String> list = search.searchPhraseAndFilterByAuthor(words, author);
         if (list == null) return new ArrayList<>();
         else return list;
     }
 
+    /**
+     * Method enables to save created index to file.
+     * @param path
+     * @return
+     */
     public boolean writeDictionariesToFile(String path){
         // Create SerializableDictionaries object
         SerializableDictionaries object = new SerializableDictionaries(wordsDictionary, authorDictionary);
@@ -146,6 +180,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Method enables to read built index from file.
+     * @param path
+     * @return
+     */
     public boolean readDictionariesFromFile(String path){
         // Create Stream
         FileInputStream file = null;
@@ -180,6 +219,9 @@ public class Controller {
         return authorDictionary;
     }
 
+    /**
+     * Additional class, required in reading and writing dictionaries from and to file.
+     */
     private static class SerializableDictionaries implements Serializable {
         private AuthorDictionary authorDictionary;
         private WordsDictionary wordsDictionary;
@@ -204,124 +246,5 @@ public class Controller {
         public void setWordsDictionary(WordsDictionary wordsDictionary) {
             this.wordsDictionary = wordsDictionary;
         }
-    }
-
-
-
-
-
-    public static void main(String[] args){
-        //String pathZero = "./dysk0";
-        String pathZero = "./src/tests/testFiles/folder3";
-        int numberOfReadingThreads = 2;
-        int numberOfIndexingThreads = 4;
-
-
-        BlockingQueue<File> files = new ArrayBlockingQueue<>(5);
-        BlockingQueue<FileContent> filesContent = new LinkedBlockingQueue<>();
-
-
-        FileFinder fileFinder = new FileFinder(pathZero, numberOfReadingThreads, files);
-        Thread fileFinderThread = new Thread(fileFinder);
-
-        Thread[] fileReaderThreads = new Thread[numberOfReadingThreads];
-        FileReader[] fileReaders = new FileReader[numberOfReadingThreads];
-        for(int i = 0; i < numberOfReadingThreads; i++){
-            fileReaders[i] = new FileReader(files, filesContent);
-            fileReaderThreads[i] = new Thread(fileReaders[i]);
-        }
-
-        // in case we have more indexing threads
-        if(numberOfIndexingThreads > numberOfReadingThreads){
-            fileReaders[0].putExtraPoison(numberOfIndexingThreads - numberOfReadingThreads);
-        }
-
-        fileFinderThread.start();
-        for(Thread thread : fileReaderThreads){
-            thread.start();
-        }
-
-        /*try {
-
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-
-        /*for(FileContent content : filesContent){
-            //System.out.println(content.getFile().getPath());
-            //System.out.println(content.getContent());
-            System.out.println(content.getAuthor());
-        }*/
-
-
-
-
-
-
-
-
-
-
-        ConcurrentHashMap<String, Word> map = new ConcurrentHashMap<>();
-        WordsDictionary wordsDictionary = new WordsDictionary(map);
-
-        ConcurrentHashMap<String, Author> map1 = new ConcurrentHashMap<>();
-        AuthorDictionary authorDictionary = new AuthorDictionary(map1);
-
-        Thread[] indexingThreads = new Thread[numberOfIndexingThreads];
-        for(int i = 0; i < numberOfIndexingThreads; i++){
-            indexingThreads[i] = new Thread(new InvertedIndex(filesContent, wordsDictionary, authorDictionary, commonWords));
-            indexingThreads[i].start();
-        }
-
-        try {
-            for(Thread thread : indexingThreads){
-                thread.join();
-            }
-            fileFinderThread.join();
-            for(Thread thread : fileReaderThreads) {
-                thread.join();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        /*if(numberOfIndexingThreads > numberOfReadingThreads){
-            for(int i = 0; i < numberOfIndexingThreads - numberOfReadingThreads; i++){
-                try {
-                    filesContent.put(new FileContent(new File(poison), "", ""));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }*/
-
-        System.out.println(authorDictionary.toString());
-        System.out.println(wordsDictionary.toString());
-
-        /*String out  = "aren't able parents' x''d''s";
-
-        out = out.replaceAll("[^(\n | \\p{Blank} | \\p{IsAlphabetic} | \\p{Digit} | \\p{Punct})]", " ");
-        out = out.replaceAll("\\p{Punct}", "");
-        out = out.replaceAll("[^(\n | \\p{IsAlphabetic} | \\p{Digit})]+", " ");
-        // i tam gdzie nowa linia, dodajmy spację, by rozdzielic slowa
-        out = out.replaceAll("\n", " \n");
-        //System.out.println("’".matches("(\n | \\p{Blank} | \\p{IsAlphabetic} | \\p{Digit} | \\p{Punct})")); */
-
-
-        List<Integer> x = new LinkedList<>();
-        x.add(1);
-        x.add(2);
-        x.add(1);
-        x.add(10);
-        x.add(2);
-        x.add(2);
-        x.add(10);
-
-        System.out.println(x);
-
-        Set<Map.Entry<Integer, Long>> b = x.stream().collect(Collectors.groupingBy(e -> e, Collectors.counting())).entrySet();
-        System.out.println(b);
     }
 }
