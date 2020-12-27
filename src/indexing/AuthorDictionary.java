@@ -59,5 +59,4 @@ public class AuthorDictionary implements Dictionary {
         return text.toString();
     }
 
-
 }

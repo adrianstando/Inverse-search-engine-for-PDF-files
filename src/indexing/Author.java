@@ -11,6 +11,8 @@ public class Author implements PDFComponent{
     private String author;
     private LinkedBlockingQueue<String> files = new LinkedBlockingQueue<>();
 
+    private HashSet<String> output;
+
     public Author(String author){
         this.author = author;
     }
@@ -35,11 +37,26 @@ public class Author implements PDFComponent{
 
     @Override
     public Set<String> getFilesConnectedWith(){
-        return new HashSet<>(files);
+        this.output = new HashSet<>(files);
+        return this.output;
     }
 
     @Override
     public String toString() {
         return  author + "; " + files.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author1 = (Author) o;
+        return Objects.equals(author, author1.author) &&
+                Objects.equals(output, author1.output);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(author, output);
     }
 }

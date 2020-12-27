@@ -99,4 +99,18 @@ public class Word implements PDFComponent{
     public String getWord() {
         return word;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Word word1 = (Word) o;
+        return Objects.equals(word, word1.word) &&
+                Objects.equals(outputPositions, word1.outputPositions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(word, outputPositions);
+    }
 }
