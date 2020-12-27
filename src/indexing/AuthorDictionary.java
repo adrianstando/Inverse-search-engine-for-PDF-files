@@ -1,5 +1,6 @@
 package indexing;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Class represents dictionary of authors - it stores all authors and information about them.
  */
-public class AuthorDictionary implements Dictionary {
+public class AuthorDictionary implements Dictionary, Serializable {
     private ConcurrentHashMap<String, Author> dictionary;
 
     public AuthorDictionary(ConcurrentHashMap<String, Author> dictionary){

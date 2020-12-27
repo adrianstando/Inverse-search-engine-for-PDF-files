@@ -1,5 +1,6 @@
 package indexing;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -10,7 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * and it's positions inside this file.
  */
 
-public class Word implements PDFComponent{
+public class Word implements PDFComponent, Serializable {
     private String word;
     private ConcurrentHashMap<String, LinkedBlockingQueue<Integer>> position = new ConcurrentHashMap<>();
 

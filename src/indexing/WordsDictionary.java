@@ -1,5 +1,6 @@
 package indexing;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -7,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Class represents dictionary of words - it stores all words and information about them.
  */
 
-public class WordsDictionary implements Dictionary{
+public class WordsDictionary implements Dictionary, Serializable {
     private ConcurrentHashMap<String, Word> dictionary;
 
     public WordsDictionary(ConcurrentHashMap<String, Word> dictionary){

@@ -1,5 +1,6 @@
 package indexing;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -7,7 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Class represents author and the list of .*pdf files created by him / her.
  */
 
-public class Author implements PDFComponent{
+public class Author implements PDFComponent, Serializable {
     private String author;
     private LinkedBlockingQueue<String> files = new LinkedBlockingQueue<>();
 
