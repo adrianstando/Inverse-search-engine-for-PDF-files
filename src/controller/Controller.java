@@ -97,23 +97,33 @@ public class Controller {
     }
 
     public List<String> searchAuthor(String author){
-        return search.searchAuthor(author);
+        List<String> list = search.searchAuthor(author);
+        if (list == null) return new ArrayList<>();
+        else return list;
     }
 
     public List<String> searchOneWord(String word){
-        return search.searchOneWord(word);
+        List<String> list = search.searchOneWord(word);
+        if (list == null) return new ArrayList<>();
+        else return list;
     }
 
     public List<String> searchPhrase(List<String> words){
-        return search.searchPhrase(words);
+        List<String> list = search.searchPhrase(words);
+        if (list == null) return new ArrayList<>();
+        else return list;
     }
 
     public List<String> searchOneWordAndFilterByAuthor(String word, String author){
-        return search.searchOneWordAndFilterByAuthor(word, author);
+        List<String> list = search.searchOneWordAndFilterByAuthor(word, author);
+        if (list == null) return new ArrayList<>();
+        else return list;
     }
 
     public List<String> searchPhraseAndFilterByAuthor(List<String> words, String author){
-        return search.searchPhraseAndFilterByAuthor(words, author);
+        List<String> list = search.searchPhraseAndFilterByAuthor(words, author);
+        if (list == null) return new ArrayList<>();
+        else return list;
     }
 
     public boolean writeDictionariesToFile(String path){

@@ -28,11 +28,18 @@ public class Search {
     }
 
     public List<String> searchAuthor(String author){
-        return new ArrayList<>(authorHashMap.get(author).getFilesConnectedWith());
+        Author author1 = authorHashMap.get(author);
+        if (author1 == null) return new ArrayList<>();
+
+        Set<String> set = author1.getFilesConnectedWith();
+        return new ArrayList<>(set);
     }
 
     public List<String> searchOneWord(String word){
-        HashMap<String, List<Integer>> map = wordsHashMap.get(word).getAllFilesWithPositions();
+        Word word1 = wordsHashMap.get(word);
+        if (word1 == null) return new ArrayList<>();
+
+        HashMap<String, List<Integer>> map = word1.getAllFilesWithPositions();
 
         ArrayList<String> out = map.entrySet().stream()
                 .sorted((a, b) -> -(a.getValue().size() - b.getValue().size()) )
@@ -43,6 +50,8 @@ public class Search {
     }
 
     public List<String> searchPhrase(List<String> words){
+        // do sth with nulls!!!
+
         // getting Word objects of required words
         Set<Word> setOfWordObjects =  wordsHashMap.entrySet().stream()
                 .parallel().unordered()
