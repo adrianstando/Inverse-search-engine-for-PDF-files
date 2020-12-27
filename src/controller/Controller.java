@@ -118,9 +118,7 @@ public class Controller {
 
     public boolean writeDictionariesToFile(String path){
         // Create SerializableDictionaries object
-        SerializableDictionaries object = new SerializableDictionaries();
-        object.setAuthorDictionary(authorDictionary);
-        object.setWordsDictionary(wordsDictionary);
+        SerializableDictionaries object = new SerializableDictionaries(wordsDictionary, authorDictionary);
 
         //Saving object to file
         FileOutputStream file = null;
@@ -178,7 +176,9 @@ public class Controller {
         private AuthorDictionary authorDictionary;
         private WordsDictionary wordsDictionary;
 
-        public SerializableDictionaries() {
+        public SerializableDictionaries(WordsDictionary wordsDictionary, AuthorDictionary authorDictionary) {
+            this.wordsDictionary = wordsDictionary;
+            this.authorDictionary = authorDictionary;
         }
 
         public AuthorDictionary getAuthorDictionary() {
