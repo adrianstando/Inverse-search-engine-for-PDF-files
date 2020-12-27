@@ -22,11 +22,19 @@ public class Search {
         updateDictionaries();
     }
 
+    /**
+     * Method updates content from dictionaries.
+     */
     public void updateDictionaries(){
         this.wordsHashMap = wordsDictionary.getDictionary();
         this.authorHashMap = authorDictionary.getDictionary();
     }
 
+    /**
+     * Method searches files created by author.
+     * @param author
+     * @return
+     */
     public List<String> searchAuthor(String author){
         Author author1 = authorHashMap.get(author);
         if (author1 == null) return new ArrayList<>();
@@ -35,6 +43,11 @@ public class Search {
         return new ArrayList<>(set);
     }
 
+    /**
+     * Method searches files which contains word. Method returns list of file paths sorted by number of occurrences.
+     * @param word
+     * @return
+     */
     public List<String> searchOneWord(String word){
         Word word1 = wordsHashMap.get(word);
         if (word1 == null) return new ArrayList<>();
@@ -49,6 +62,12 @@ public class Search {
         return out;
     }
 
+    /**
+     * Method searches files which contains phrase. Method returns list of file paths sorted by number of occurrences.
+     * @param words
+     * @return
+     * @todo write this method once more
+     */
     public List<String> searchPhrase(List<String> words){
         // do sth with nulls!!!
 
@@ -121,6 +140,12 @@ public class Search {
         return 0;
     }
 
+    /**
+     * Method searches files which contains word and which are created by author. Method returns list of file paths sorted by number of occurrences.
+     * @param word
+     * @param author
+     * @return
+     */
     public List<String> searchOneWordAndFilterByAuthor(String word, String author){
         List<String> wordList = searchOneWord(word);
         List<String> authorList = searchAuthor(author);
@@ -132,6 +157,12 @@ public class Search {
         return out;
     }
 
+    /**
+     * Method searches files which contains phrase and which are created by author. Method returns list of file paths sorted by number of occurrences.
+     * @param words
+     * @param author
+     * @return
+     */
     public List<String> searchPhraseAndFilterByAuthor(List<String> words, String author){
         List<String> wordList = searchPhrase(words);
         List<String> authorList = searchAuthor(author);

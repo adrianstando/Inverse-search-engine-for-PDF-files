@@ -99,7 +99,7 @@ public class Controller {
     }
 
     /**
-     * Method searches file created by author.
+     * Method searches files created by author.
      * @param author
      * @return list
      */
