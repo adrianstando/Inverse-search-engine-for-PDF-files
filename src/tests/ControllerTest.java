@@ -16,7 +16,7 @@ class ControllerTest {
 
         boolean b;
 
-        b = controller.writeDictionariesToFile("./src/tests/testFiles/dictionaries.bin");
+        b = controller.writeDictionariesToFile("./src/tests/testFiles/dictionaries.ser");
         assertTrue(b);
 
         WordsDictionary wordsDictionary1 = controller.getWordsDictionary();
@@ -25,7 +25,7 @@ class ControllerTest {
         Controller controller2 = new Controller();
         controller2.createIndex("./src/tests/testFiles");
 
-        b = controller2.readDictionariesFromFile("./src/tests/testFiles/dictionaries.bin");
+        b = controller2.readDictionariesFromFile("./src/tests/testFiles/dictionaries.ser");
         assertTrue(b);
 
         WordsDictionary wordsDictionary2 = controller2.getWordsDictionary();
