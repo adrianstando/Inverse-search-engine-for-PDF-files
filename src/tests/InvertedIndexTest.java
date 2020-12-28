@@ -5,6 +5,7 @@ import files.FileFinder;
 import files.FileReader;
 import indexing.*;
 import org.junit.jupiter.api.Test;
+import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.io.File;
 import java.lang.reflect.Array;
@@ -135,17 +136,17 @@ class InvertedIndexTest {
         assertEquals(0, filesContent.size());
 
         assertEquals(2, authorDictionary.getAllUniqueKeys().size());
-        assertTrue(authorDictionary.getDictionary().containsKey("Autor Pliku nr 1"));
-        assertTrue(authorDictionary.getDictionary().containsKey("Autor pliku nr 2"));
+        assertTrue(authorDictionary.getDictionary().containsKey("author 1"));
+        assertTrue(authorDictionary.getDictionary().containsKey("author 2"));
 
         assertEquals(Arrays.stream(new String[] {"./src/tests/testFiles/folder2/test1.pdf"}).collect(Collectors.toSet()),
-                authorDictionary.getFilesWith("Autor pliku nr 2"));
+                authorDictionary.getFilesWith("author 2"));
 
         assertEquals(Arrays.stream(new String[] {"./src/tests/testFiles/folder1/test.pdf"}).collect(Collectors.toSet()),
-                authorDictionary.getFilesWith("Autor Pliku nr 1"));
+                authorDictionary.getFilesWith("author 1"));
 
-        assertEquals(3, wordsDictionary.getPositionsOfWordInPath("bla", "./src/tests/testFiles/folder1/test.pdf").size());
-        assertEquals(6, wordsDictionary.getPositionsOfWordInPath("bla", "./src/tests/testFiles/folder2/test1.pdf").size());
+        assertEquals(1, wordsDictionary.getPositionsOfWordInPath(stemWord("dursley"), "./src/tests/testFiles/folder1/test.pdf").size());
+        assertEquals(2, wordsDictionary.getPositionsOfWordInPath(stemWord("boulevard"), "./src/tests/testFiles/folder2/test1.pdf").size());
 
         assertEquals(Thread.State.TERMINATED, fileFinderThread.getState());
         for(Thread thread : fileReaderThreads){
@@ -214,23 +215,18 @@ class InvertedIndexTest {
         // no author
         assertEquals(0, authorDictionary.getAllUniqueKeys().size());
 
-        assertEquals(5, wordsDictionary.getDictionary().keySet().size());
+        assertEquals(25, wordsDictionary.getDictionary().keySet().size());
 
-        assertEquals(3, wordsDictionary.getDictionary().get("bla").
+        assertEquals(2, wordsDictionary.getDictionary().get(stemWord("alone")).
                 getPositionsOfTheWordInFile("./src/tests/testFiles/folder3/x.pdf").size());
+    }
 
-        /*assertEquals(3, wordsDictionary.getPositionsOfWordInPath("bla", "./src/tests/testFiles/folder1/test.pdf").size());
-        assertEquals(6, wordsDictionary.getPositionsOfWordInPath("bla", "./src/tests/testFiles/folder2/test1.pdf").size());
 
-        assertEquals(Thread.State.TERMINATED, fileFinderThread.getState());
-        for(Thread thread : fileReaderThreads){
-            assertEquals(Thread.State.TERMINATED, thread.getState());
-        }
-        for(int i = 0; i < numberOfIndexingThreads; i++){
-            assertEquals(Thread.State.TERMINATED, indexingThreads[i].getState());
-        }*/
-        System.out.println(wordsDictionary);
-        System.out.println(commonWords);
+    private PorterStemmer porterStemmer = new PorterStemmer();
+    private String stemWord(String word){
+        porterStemmer.setCurrent(word);
+        porterStemmer.stem();
+        return porterStemmer.getCurrent();
     }
 
 }

@@ -32,8 +32,8 @@ public class FileContent {
     @Override
     public String toString() {
         String text = "Path: " + file.getPath()
-                + "Author: " + author
-               // + "\'" + content + "\'";
+                + "\nAuthor: " + author
+                + " \n" + content;
                 ;
         return text;
     }

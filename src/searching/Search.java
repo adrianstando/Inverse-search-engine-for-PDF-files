@@ -71,7 +71,7 @@ public class Search {
      * Method searches files which contains phrase. Method returns list of file paths sorted by number of occurrences.
      * @param words
      * @return
-     * @todo write this method once more + stem words
+     * @todo write this method once more + stem words + convert input text
      */
     public List<String> searchPhrase(List<String> words){
         // do sth with nulls!!!
