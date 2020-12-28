@@ -21,6 +21,7 @@ public class Controller {
     private WordsDictionary wordsDictionary;
     private AuthorDictionary authorDictionary;
     private Search search;
+    private boolean dictionariesCreated = false;
 
     private static List<String> commonWords = Arrays.stream(new String [] {"a", "able", "about", "all", "an", "and", "any", "are", "aren't", "isn't", "as", "at", "be", "been", "by",
             "can", "can't", "could", "couldn't", "do", "does", "doesn't", "don't", "down", "has", "hasn't", "have", "haven't", "he", "here", "his", "how",
@@ -96,6 +97,7 @@ public class Controller {
         }
 
         this.search = new Search(authorDictionary, wordsDictionary);
+        dictionariesCreated = true;
     }
 
     /**
@@ -104,6 +106,7 @@ public class Controller {
      * @return list
      */
     public List<String> searchAuthor(String author){
+        if(!dictionariesCreated) return new ArrayList<>();
         List<String> list = search.searchAuthor(author);
         if (list == null) return new ArrayList<>();
         else return list;
@@ -115,6 +118,8 @@ public class Controller {
      * @return
      */
     public List<String> searchOneWord(String word){
+        if(!dictionariesCreated) return new ArrayList<>();
+
         List<String> list = search.searchOneWord(word);
         if (list == null) return new ArrayList<>();
         else return list;
@@ -126,6 +131,7 @@ public class Controller {
      * @return
      */
     public List<String> searchPhrase(List<String> words){
+        if(!dictionariesCreated) return new ArrayList<>();
         List<String> list = search.searchPhrase(words);
         if (list == null) return new ArrayList<>();
         else return list;
@@ -138,6 +144,7 @@ public class Controller {
      * @return
      */
     public List<String> searchOneWordAndFilterByAuthor(String word, String author){
+        if(!dictionariesCreated) return new ArrayList<>();
         List<String> list = search.searchOneWordAndFilterByAuthor(word, author);
         if (list == null) return new ArrayList<>();
         else return list;
@@ -150,6 +157,7 @@ public class Controller {
      * @return
      */
     public List<String> searchPhraseAndFilterByAuthor(List<String> words, String author){
+        if(!dictionariesCreated) return new ArrayList<>();
         List<String> list = search.searchPhraseAndFilterByAuthor(words, author);
         if (list == null) return new ArrayList<>();
         else return list;
@@ -161,6 +169,7 @@ public class Controller {
      * @return
      */
     public boolean writeDictionariesToFile(String path){
+        if(!dictionariesCreated) return false;
         // Create SerializableDictionaries object
         SerializableDictionaries object = new SerializableDictionaries(wordsDictionary, authorDictionary);
 
@@ -204,6 +213,7 @@ public class Controller {
             wordsDictionary = object.getWordsDictionary();
 
             this.search = new Search(authorDictionary, wordsDictionary);
+            dictionariesCreated = true;
 
             return true;
         } catch (IOException | ClassNotFoundException e) {

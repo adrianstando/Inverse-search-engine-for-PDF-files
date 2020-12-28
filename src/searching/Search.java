@@ -5,6 +5,7 @@ import indexing.Author;
 import indexing.AuthorDictionary;
 import indexing.Word;
 import indexing.WordsDictionary;
+import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,6 +16,8 @@ public class Search {
 
     private HashMap<String, Word> wordsHashMap;
     private HashMap<String, Author> authorHashMap;
+
+    private PorterStemmer porterStemmer = new PorterStemmer();
 
     public Search(AuthorDictionary authorDictionary, WordsDictionary wordsDictionary){
         this.authorDictionary = authorDictionary;
@@ -49,7 +52,9 @@ public class Search {
      * @return
      */
     public List<String> searchOneWord(String word){
-        Word word1 = wordsHashMap.get(word);
+        String stemmedWord = stemWord(word);
+
+        Word word1 = wordsHashMap.get(stemmedWord);
         if (word1 == null) return new ArrayList<>();
 
         HashMap<String, List<Integer>> map = word1.getAllFilesWithPositions();
@@ -66,7 +71,7 @@ public class Search {
      * Method searches files which contains phrase. Method returns list of file paths sorted by number of occurrences.
      * @param words
      * @return
-     * @todo write this method once more
+     * @todo write this method once more + stem words
      */
     public List<String> searchPhrase(List<String> words){
         // do sth with nulls!!!
@@ -174,6 +179,11 @@ public class Search {
         return out;
     }
 
+    private String stemWord(String word){
+        porterStemmer.setCurrent(word);
+        porterStemmer.stem();
+        return porterStemmer.getCurrent();
+    }
 
     class WordInFile{
         private String word;
