@@ -70,11 +70,9 @@ public class Controller {
         }
 
         // create dictionaries
-        ConcurrentHashMap<String, Word> map = new ConcurrentHashMap<>();
-        this.wordsDictionary = new WordsDictionary(map);
+        this.wordsDictionary = new WordsDictionary();
 
-        ConcurrentHashMap<String, Author> map1 = new ConcurrentHashMap<>();
-        this.authorDictionary = new AuthorDictionary(map1);
+        this.authorDictionary = new AuthorDictionary();
 
         // start threads building InvertedIndex
         Thread[] indexingThreads = new Thread[numberOfIndexingThreads];

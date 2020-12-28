@@ -17,11 +17,9 @@ class SearchTest {
 
     @Test
     void authorSearchTest(){
-        ConcurrentHashMap<String, Author> dictionary = new ConcurrentHashMap<>();
-        AuthorDictionary authorDictionary = new AuthorDictionary(dictionary);
+        AuthorDictionary authorDictionary = new AuthorDictionary();
 
-        ConcurrentHashMap<String, Word> dictionary1 = new ConcurrentHashMap<>();
-        WordsDictionary wordsDictionary = new WordsDictionary(dictionary1);
+        WordsDictionary wordsDictionary = new WordsDictionary();
 
         List<String> authors1 = Arrays.stream(new String[] {"a", "b"}).collect(Collectors.toList());
         List<String> authors2 = Arrays.stream(new String[] {"s", "d"}).collect(Collectors.toList());
@@ -71,14 +69,12 @@ class SearchTest {
 
     @Test
     void searchOneWordTest(){
-        ConcurrentHashMap<String, Author> dictionary1 = new ConcurrentHashMap<>();
-        AuthorDictionary authorDictionary = new AuthorDictionary(dictionary1);
+        AuthorDictionary authorDictionary = new AuthorDictionary();
 
-        ConcurrentHashMap<String, Word> dictionary = new ConcurrentHashMap<>();
-        WordsDictionary wordsDictionary = new WordsDictionary(dictionary);
+        WordsDictionary wordsDictionary = new WordsDictionary();
 
-        List<String> words1 = Arrays.stream(new String[] {"a", "b", "c", "d"}).collect(Collectors.toList());
-        List<String> words2 = Arrays.stream(new String[] {"s", "d", "f", "g"}).collect(Collectors.toList());
+        List<String> words1 = Arrays.stream(new String[] {"aa", "bb", "cc", "dd"}).collect(Collectors.toList());
+        List<String> words2 = Arrays.stream(new String[] {"ss", "dd", "ff", "gg"}).collect(Collectors.toList());
 
         List<String> paths1 = Arrays.stream(new String[] {"1path1a", "1path2a", "1path3a", "1path4a"}).collect(Collectors.toList());
         List<String> paths2 = Arrays.stream(new String[] {"2path1a", "2path2a", "2path3a", "2path4a"}).collect(Collectors.toList());
@@ -123,25 +119,23 @@ class SearchTest {
         }
 
         Search search = new Search(authorDictionary, wordsDictionary);
-        List<String> out1 = search.searchOneWord("a");
+        List<String> out1 = search.searchOneWord("aa");
 
         assertEquals(new HashSet<>(paths1), new HashSet<>(out1));
 
-        List<String> out2 = search.searchOneWord("s");
+        List<String> out2 = search.searchOneWord("ss");
 
         assertEquals(new HashSet<>(paths2), new HashSet<>(out2));
     }
 
     @Test
     void searchOneWordTest2(){
-        ConcurrentHashMap<String, Author> dictionary1 = new ConcurrentHashMap<>();
-        AuthorDictionary authorDictionary = new AuthorDictionary(dictionary1);
+        AuthorDictionary authorDictionary = new AuthorDictionary();
 
-        ConcurrentHashMap<String, Word> dictionary = new ConcurrentHashMap<>();
-        WordsDictionary wordsDictionary = new WordsDictionary(dictionary);
+        WordsDictionary wordsDictionary = new WordsDictionary();
 
-        List<String> words1 = Arrays.stream(new String[] {"a", "b", "c", "d"}).collect(Collectors.toList());
-        List<String> words2 = Arrays.stream(new String[] {"s", "d", "f", "g"}).collect(Collectors.toList());
+        List<String> words1 = Arrays.stream(new String[] {"aa", "bb", "cc", "dd"}).collect(Collectors.toList());
+        List<String> words2 = Arrays.stream(new String[] {"ss", "dd", "ff", "gg"}).collect(Collectors.toList());
 
         List<String> paths1 = Arrays.stream(new String[] {"1path1a", "1path2a", "1path3a", "1path4a"}).collect(Collectors.toList());
         List<String> paths2 = Arrays.stream(new String[] {"2path1a", "2path2a", "2path3a", "2path4a"}).collect(Collectors.toList());
@@ -186,11 +180,11 @@ class SearchTest {
         }
 
         Search search = new Search(authorDictionary, wordsDictionary);
-        List<String> out1 = search.searchOneWord("a");
+        List<String> out1 = search.searchOneWord("aa");
 
         assertEquals(new HashSet<>(paths1), new HashSet<>(out1));
 
-        List<String> out2 = search.searchOneWord("s");
+        List<String> out2 = search.searchOneWord("ss");
 
         assertEquals(new HashSet<>(paths2), new HashSet<>(out2));
     }
@@ -198,14 +192,12 @@ class SearchTest {
 
     @Test
     void searchOneWordAndFilterByAuthorTest(){
-        ConcurrentHashMap<String, Author> dictionary1 = new ConcurrentHashMap<>();
-        AuthorDictionary authorDictionary = new AuthorDictionary(dictionary1);
+        AuthorDictionary authorDictionary = new AuthorDictionary();
 
-        ConcurrentHashMap<String, Word> dictionary = new ConcurrentHashMap<>();
-        WordsDictionary wordsDictionary = new WordsDictionary(dictionary);
+        WordsDictionary wordsDictionary = new WordsDictionary();
 
-        List<String> words1 = Arrays.stream(new String[] {"a", "b", "c", "d"}).collect(Collectors.toList());
-        List<String> words2 = Arrays.stream(new String[] {"s", "d", "f", "g"}).collect(Collectors.toList());
+        List<String> words1 = Arrays.stream(new String[] {"aa", "bb", "cc", "dd"}).collect(Collectors.toList());
+        List<String> words2 = Arrays.stream(new String[] {"ss", "dd", "ff", "gg"}).collect(Collectors.toList());
 
         List<String> paths1 = Arrays.stream(new String[] {"1path1a", "1path2a", "1path3a"}).collect(Collectors.toList());
         List<String> paths2 = Arrays.stream(new String[] {"2path1a", "2path2a", "2path3a"}).collect(Collectors.toList());
@@ -288,11 +280,11 @@ class SearchTest {
         }
 
         Search search = new Search(authorDictionary, wordsDictionary);
-        List<String> out1 = search.searchOneWordAndFilterByAuthor("a", "s");
+        List<String> out1 = search.searchOneWordAndFilterByAuthor("aa", "s");
 
         assertEquals(paths1, out1);
 
-        List<String> out2 = search.searchOneWordAndFilterByAuthor("s", "a");
+        List<String> out2 = search.searchOneWordAndFilterByAuthor("ss", "a");
 
         assertEquals(paths2, out2);
 
@@ -300,20 +292,18 @@ class SearchTest {
             authorDictionary.add("a", b);
         }
 
-        List<String> out3 = search.searchOneWordAndFilterByAuthor("a", "a");
+        List<String> out3 = search.searchOneWordAndFilterByAuthor("aa", "a");
         assertEquals(paths1, out3);
     }
 
     @Test
     void searchOneWordAndFilterByAuthorTest2(){
-        ConcurrentHashMap<String, Author> dictionary1 = new ConcurrentHashMap<>();
-        AuthorDictionary authorDictionary = new AuthorDictionary(dictionary1);
+        AuthorDictionary authorDictionary = new AuthorDictionary();
 
-        ConcurrentHashMap<String, Word> dictionary = new ConcurrentHashMap<>();
-        WordsDictionary wordsDictionary = new WordsDictionary(dictionary);
+        WordsDictionary wordsDictionary = new WordsDictionary();
 
-        List<String> words1 = Arrays.stream(new String[] {"a", "b", "c", "d"}).collect(Collectors.toList());
-        List<String> words2 = Arrays.stream(new String[] {"s", "d", "f", "g"}).collect(Collectors.toList());
+        List<String> words1 = Arrays.stream(new String[] {"aa", "bb", "cc", "dd"}).collect(Collectors.toList());
+        List<String> words2 = Arrays.stream(new String[] {"ss", "dd", "ff", "gg"}).collect(Collectors.toList());
 
         List<String> paths1 = Arrays.stream(new String[] {"1path1a", "1path2a", "1path3a"}).collect(Collectors.toList());
         List<String> paths2 = Arrays.stream(new String[] {"2path1a", "2path2a", "2path3a"}).collect(Collectors.toList());
@@ -396,11 +386,11 @@ class SearchTest {
         }
 
         Search search = new Search(authorDictionary, wordsDictionary);
-        List<String> out1 = search.searchOneWordAndFilterByAuthor("a", "s");
+        List<String> out1 = search.searchOneWordAndFilterByAuthor("aa", "s");
 
         assertEquals(Arrays.stream(new String[] {"1path3a", "1path2a", "1path1a"}).collect(Collectors.toList()), out1);
 
-        List<String> out2 = search.searchOneWordAndFilterByAuthor("s", "a");
+        List<String> out2 = search.searchOneWordAndFilterByAuthor("ss", "a");
 
         assertEquals(Arrays.stream(new String[] {"2path3a", "2path2a", "2path1a"}).collect(Collectors.toList()), out2);
 
@@ -408,7 +398,7 @@ class SearchTest {
             authorDictionary.add("a", b);
         }
 
-        List<String> out3 = search.searchOneWordAndFilterByAuthor("a", "a");
+        List<String> out3 = search.searchOneWordAndFilterByAuthor("aa", "a");
         assertEquals(Arrays.stream(new String[] {"1path3a", "1path2a", "1path1a"}).collect(Collectors.toList()), out3);
     }
 

@@ -13,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AuthorDictionaryTest {
     @Test
     void authorDictionaryTest(){
-        ConcurrentHashMap<String, Author> dictionary = new ConcurrentHashMap<>();
-        AuthorDictionary authorDictionary = new AuthorDictionary(dictionary);
+        AuthorDictionary authorDictionary = new AuthorDictionary();
 
         List<String> authors1 = Arrays.stream(new String[] {"a", "b", "c", "d"}).collect(Collectors.toList());
         List<String> authors2 = Arrays.stream(new String[] {"s", "d", "f", "g"}).collect(Collectors.toList());

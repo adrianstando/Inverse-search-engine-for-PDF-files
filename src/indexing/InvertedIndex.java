@@ -41,7 +41,7 @@ public class InvertedIndex implements Runnable{
         if (fileContent.getFile().getName().equals(poison)){
             stop();
         } else{
-            String path = fileContent.getFile().getAbsolutePath();
+            String path = fileContent.getFile().getPath();
 
             String text = fileContent.getContent();
             //System.out.println(text);

@@ -9,10 +9,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 
 public class WordsDictionary implements Dictionary, Serializable {
-    private ConcurrentHashMap<String, Word> dictionary;
+    private ConcurrentHashMap<String, Word> dictionary = new ConcurrentHashMap<>();
 
-    public WordsDictionary(ConcurrentHashMap<String, Word> dictionary){
-        this.dictionary = dictionary;
+    public WordsDictionary(){
+
     }
 
     /**

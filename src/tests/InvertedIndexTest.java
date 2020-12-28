@@ -42,11 +42,9 @@ class InvertedIndexTest {
             e.printStackTrace();
         }
 
-        ConcurrentHashMap<String, Word> map = new ConcurrentHashMap<>();
-        WordsDictionary wordsDictionary = new WordsDictionary(map);
+        WordsDictionary wordsDictionary = new WordsDictionary();
 
-        ConcurrentHashMap<String, Author> map1 = new ConcurrentHashMap<>();
-        AuthorDictionary authorDictionary = new AuthorDictionary(map1);
+        AuthorDictionary authorDictionary = new AuthorDictionary();
 
         InvertedIndex invertedIndex = new InvertedIndex(filesContent, wordsDictionary, authorDictionary, commonWords);
 
@@ -112,11 +110,9 @@ class InvertedIndexTest {
 
 
 
-        ConcurrentHashMap<String, Word> map = new ConcurrentHashMap<>();
-        WordsDictionary wordsDictionary = new WordsDictionary(map);
+        WordsDictionary wordsDictionary = new WordsDictionary();
 
-        ConcurrentHashMap<String, Author> map1 = new ConcurrentHashMap<>();
-        AuthorDictionary authorDictionary = new AuthorDictionary(map1);
+        AuthorDictionary authorDictionary = new AuthorDictionary();
 
         Thread[] indexingThreads = new Thread[numberOfIndexingThreads];
         for(int i = 0; i < numberOfIndexingThreads; i++){
@@ -193,11 +189,9 @@ class InvertedIndexTest {
 
 
 
-        ConcurrentHashMap<String, Word> map = new ConcurrentHashMap<>();
-        WordsDictionary wordsDictionary = new WordsDictionary(map);
+        WordsDictionary wordsDictionary = new WordsDictionary();
 
-        ConcurrentHashMap<String, Author> map1 = new ConcurrentHashMap<>();
-        AuthorDictionary authorDictionary = new AuthorDictionary(map1);
+        AuthorDictionary authorDictionary = new AuthorDictionary();
 
         Thread[] indexingThreads = new Thread[numberOfIndexingThreads];
         for(int i = 0; i < numberOfIndexingThreads; i++){

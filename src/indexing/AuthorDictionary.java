@@ -9,10 +9,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * Class represents dictionary of authors - it stores all authors and information about them.
  */
 public class AuthorDictionary implements Dictionary, Serializable {
-    private ConcurrentHashMap<String, Author> dictionary;
+    private ConcurrentHashMap<String, Author> dictionary = new ConcurrentHashMap<>();
 
-    public AuthorDictionary(ConcurrentHashMap<String, Author> dictionary){
-        this.dictionary = dictionary;
+    public AuthorDictionary(){
+
     }
 
     /**

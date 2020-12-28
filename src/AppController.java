@@ -67,7 +67,7 @@ public class AppController {
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(null);
 
-        controller.writeDictionariesToFile(file.getAbsolutePath());
+        if(!(file == null)) controller.writeDictionariesToFile(file.getAbsolutePath());
     }
 
     /**

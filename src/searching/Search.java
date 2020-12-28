@@ -185,6 +185,8 @@ public class Search {
         return porterStemmer.getCurrent();
     }
 
+
+
     class WordInFile{
         private String word;
         private List<Line> positions;

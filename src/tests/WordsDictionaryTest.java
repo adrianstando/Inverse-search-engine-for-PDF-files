@@ -15,8 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class WordsDictionaryTest {
     @Test
     void wordDictionaryTest(){
-        ConcurrentHashMap<String, Word> dictionary = new ConcurrentHashMap<>();
-        WordsDictionary wordsDictionary = new WordsDictionary(dictionary);
+        WordsDictionary wordsDictionary = new WordsDictionary();
 
         List<String> words1 = Arrays.stream(new String[] {"a", "b", "c", "d"}).collect(Collectors.toList());
         List<String> words2 = Arrays.stream(new String[] {"s", "d", "f", "g"}).collect(Collectors.toList());
