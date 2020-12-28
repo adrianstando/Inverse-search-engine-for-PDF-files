@@ -215,7 +215,7 @@ class InvertedIndexTest {
         // no author
         assertEquals(0, authorDictionary.getAllUniqueKeys().size());
 
-        assertEquals(25, wordsDictionary.getDictionary().keySet().size());
+        assertEquals(19, wordsDictionary.getDictionary().keySet().size());
 
         assertEquals(2, wordsDictionary.getDictionary().get(stemWord("alone")).
                 getPositionsOfTheWordInFile("./src/tests/testFiles/folder3/x.pdf").size());
