@@ -1,4 +1,5 @@
 import controller.Controller;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -26,6 +27,7 @@ public class AppController {
     public Pagination results = new Pagination(5, 0);
 
     private Controller controller = new Controller();
+    private boolean indexLoaded = false;
 
     private List<String> searchResults = new ArrayList<>();
     private int maxItemsPerPage = 5;
@@ -39,6 +41,7 @@ public class AppController {
         File selectedDirectory = directoryChooser.showDialog(null);
         if(!(selectedDirectory == null)){
             controller.createIndex(selectedDirectory.getAbsolutePath());
+            indexLoaded = true;
         }
     }
 
@@ -52,7 +55,10 @@ public class AppController {
         fileChooser.getExtensionFilters().add(extFilter);
         File selectedFile = fileChooser.showOpenDialog(null);
         if(!(selectedFile == null)){
-            controller.readDictionariesFromFile(selectedFile.getAbsolutePath());
+            boolean b = controller.readDictionariesFromFile(selectedFile.getAbsolutePath());
+
+            if(!b) generateErrorAlert("Error during reading index file!");
+            else indexLoaded = true;
         }
     }
 
@@ -66,7 +72,12 @@ public class AppController {
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(null);
 
-        if(!(file == null)) controller.writeDictionariesToFile(file.getAbsolutePath());
+        if(!(file == null)){
+            boolean b = controller.writeDictionariesToFile(file.getAbsolutePath());
+
+            if(!b) generateErrorAlert("Error during writing index to file!");
+            else indexLoaded = true;
+        }
     }
 
     /**
@@ -76,6 +87,9 @@ public class AppController {
      * @todo search phrase
      */
     public void searchByWordsAndAuthor(ActionEvent actionEvent) {
+        // when someone wants to search before loading/creating index
+        if(!indexLoaded) generateErrorAlert("Index was neither created nor loaded!");
+
         // for now simplified version, only with one word
         String word = textWords.getText();
         String author = textAuthor.getText();
@@ -142,6 +156,24 @@ public class AppController {
         results.setCurrentPageIndex(0);
 
         results.setPageFactory(this::createPage);
+    }
+
+    /**
+     * Method which generates error alert with information from text.
+     * @param text
+     */
+    private void generateErrorAlert(String text){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(text);
+
+        // this makes alerts work on KDE Linux (Kubuntu)
+        alert.setResizable(true);
+        alert.onShownProperty().addListener(e -> {
+            Platform.runLater(() -> alert.setResizable(false));
+        });
+
+        alert.showAndWait();
     }
 
 }
