@@ -52,11 +52,15 @@ public class WordsDictionary implements Dictionary, Serializable {
 
     @Override
     public Set<String> getFilesWith(String object) {
-        return dictionary.get(object).getFilesConnectedWith();
+        Word word = dictionary.get(object);
+        if (word == null) return new HashSet<>();
+        else return word.getFilesConnectedWith();
     }
 
     public List<Integer> getPositionsOfWordInPath(String word, String path){
-        return dictionary.get(word).getPositionsOfTheWordInFile(path);
+        Word wordObject = dictionary.get(word);
+        if (wordObject == null) return new ArrayList<>();
+        else return wordObject.getPositionsOfTheWordInFile(path);
     }
 
     @Override

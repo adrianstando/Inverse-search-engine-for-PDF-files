@@ -2,6 +2,7 @@ package indexing;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -47,7 +48,9 @@ public class AuthorDictionary implements Dictionary, Serializable {
 
     @Override
     public Set<String> getFilesWith(String object) {
-        return dictionary.get(object).getFilesConnectedWith();
+        Author author = dictionary.get(object);
+        if (author == null) return new HashSet<>();
+        else return author.getFilesConnectedWith();
     }
 
     @Override
