@@ -1,7 +1,10 @@
 package files;
 
 import java.io.File;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -23,37 +26,26 @@ public class FileFinder implements Runnable{
     }
 
     /**
-     * This method searches recursively for files with PDF extension.
+     * This method searches for files with PDF extension.
      *
      * @param directory
-     * @throws InterruptedException
+     * @throws IOException
      */
-    public void findAndAddAllPDFFiles(File directory) throws InterruptedException {
-        File[] listOfFiles = directory.listFiles();
-
-        if (listOfFiles==null) return;
-
-        for(File fileInDirectory : listOfFiles){
-            if(fileInDirectory.isFile() && isPDF(fileInDirectory)){
-                files.put(fileInDirectory);
-            } else if (fileInDirectory.isDirectory()){
-                findAndAddAllPDFFiles(fileInDirectory);
-            }
-        }
-    }
-
-    /**
-     * Method checks if the File object has .pdf extension.
-     *
-     * @param file
-     * @return isItPDF
-     */
-
-    private boolean isPDF(File file){
-        String fileName = file.getName();
-        boolean isItPDF = fileName.matches(".*\\.pdf") || fileName.matches(".*\\.PDF");
-
-        return isItPDF;
+    public void findAndAddAllPDFFiles(String directory) throws IOException {
+        Path start = Paths.get(directory);
+        Files.walk(start, Integer.MAX_VALUE)
+                .unordered()
+                .parallel()
+                .map(Path::toFile)
+                //.peek(e -> System.out.println(e.getAbsolutePath()))
+                .filter(e -> e.getAbsolutePath().endsWith(".pdf") || e.getAbsolutePath().endsWith(".PDF"))
+                .forEach(e -> {
+                    try {
+                        files.put(e);
+                    } catch (InterruptedException interruptedException) {
+                        interruptedException.printStackTrace();
+                    }
+                });
     }
 
     /**
@@ -62,8 +54,8 @@ public class FileFinder implements Runnable{
     @Override
     public void run() {
         try {
-            findAndAddAllPDFFiles(new File(pathZero));
-        } catch (InterruptedException e) {
+            findAndAddAllPDFFiles(pathZero);
+        } catch (IOException e) {
             e.printStackTrace();
         }
         for(int i = 0; i < numberOfReaderThreads; i++){
@@ -75,24 +67,4 @@ public class FileFinder implements Runnable{
         }
 
     }
-
-    /*public static void main(String[] args){
-        BlockingQueue<File> files = new ArrayBlockingQueue<>(10);
-
-        String currentDirectory = System.getProperty("user.dir");
-        System.out.println("The current working directory is " + currentDirectory);
-
-        FileFinder fileFinder = new FileFinder("./dysk", 1, files);
-
-        Thread thread = new Thread(fileFinder);
-        thread.start();
-
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(files);
-    }*/
 }
