@@ -111,28 +111,16 @@ public class AppController {
     /**
      * Action after clicking buttonSearch.
      * @param actionEvent
-     *
-     * @todo search phrase
      */
     public void searchByWordsAndAuthor(ActionEvent actionEvent) {
         // when someone wants to search before loading/creating index
         if(!indexLoaded) generateErrorAlert("Index was neither created nor loaded!");
 
-        // for now simplified version, only with one word
-        String word = textWords.getText();
+        String input = textWords.getText();
         String author = textAuthor.getText();
 
-        if (author.equals("")){
-            if (!(word.equals(""))){
-                searchResults = controller.searchOneWord(word);
-                updatePagination();
-            }
-        } else {
-            if (!(word.equals(""))){
-                searchResults = controller.searchOneWordAndFilterByAuthor(word, author);
-                updatePagination();
-            }
-        }
+        searchResults = controller.search(input, author);
+        updatePagination();
     }
 
     /**
@@ -180,9 +168,9 @@ public class AppController {
      */
     private void updatePagination(){
         int x = (int) Math.ceil((double)searchResults.size() / (double)maxItemsPerPage);
-        results.setPageCount(x);
+        results.setPageCount(Math.max(x, 1));
         results.setCurrentPageIndex(0);
-        results.setMaxPageIndicatorCount(Math.min(10, x));
+        results.setMaxPageIndicatorCount(Math.min(10, Math.max(x, 1)));
 
         results.setPageFactory(this::createPage);
     }

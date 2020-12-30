@@ -3,13 +3,13 @@ package controller;
 import files.*;
 import files.FileReader;
 import indexing.*;
+import org.tartarus.snowball.ext.PorterStemmer;
 import searching.Search;
 
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
@@ -20,8 +20,10 @@ public class Controller {
     private final static String poison = "THIS_IS_THE_END.non_existing_extension";
     private WordsDictionary wordsDictionary;
     private AuthorDictionary authorDictionary;
-    private Search search;
+    private Search searchObject;
     private boolean dictionariesCreated = false;
+
+    private PorterStemmer porterStemmer = new PorterStemmer();
 
     private static List<String> commonWords = Arrays.stream(new String [] {"a", "able", "about", "all", "an", "and", "any", "are", "aren't", "isn't", "as", "at", "be", "been", "by",
             "can", "can't", "could", "couldn't", "do", "does", "doesn't", "don't", "down", "has", "hasn't", "have", "haven't", "he", "here", "his", "how",
@@ -34,6 +36,8 @@ public class Controller {
     public Controller(){
 
     }
+
+     //Creating index part.
 
     /**
      * Method which builds index from pathZero.
@@ -94,8 +98,74 @@ public class Controller {
             e.printStackTrace();
         }
 
-        this.search = new Search(authorDictionary, wordsDictionary);
+        this.searchObject = new Search(authorDictionary, wordsDictionary);
         dictionariesCreated = true;
+    }
+
+     // Searching part.
+
+    /**
+     * Method searches words or phrases from given input text (as word) and filters by author (if author is given).
+     * Method processes input text (from word).
+     * If input text is empty ("") and author not, method returns list of all files created by author.
+     *
+     * @param input
+     * @param author
+     * @return
+     */
+    public List<String> search(String input, String author){
+        if(input == null || author == null) return new ArrayList<>();
+        if(!dictionariesCreated) return new ArrayList<>();
+
+        List<String> splitText = processInputText(input);
+
+        if (author.equals("")){
+            if (!(input.equals(""))){
+                if(splitText.size() == 1){
+                    return searchOneWord(splitText.get(0));
+                }
+                else return searchPhrase(splitText);
+            }
+        } else {
+            // !(author.equals("")) and !(author!=null)
+            if (!(input.equals(""))){
+                if(splitText.size() == 1) return searchOneWordAndFilterByAuthor(input, author);
+                else return searchPhraseAndFilterByAuthor(splitText, author);
+            } else {
+                // !(author.equals("")) and !(author!=null) and (input.equals(""))
+                return searchAuthor(author);
+            }
+        }
+
+        return new ArrayList<>();
+    }
+
+    /**
+     * Method processes input text for search method.
+     * @param text
+     * @return
+     */
+    private List<String> processInputText(String text){
+        if(text == null) return new ArrayList<>();
+
+        return Arrays.stream(text.split("\\s+"))
+                .filter(r -> !commonWords.contains(r))
+                .filter(r -> !(r.equals("") || r.equals(" ")))
+                .map(r -> r.replaceAll(" ", ""))
+                .map(String::toLowerCase)
+                .map(this::stemWord)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Method stems word.
+     * @param word
+     * @return
+     */
+    private String stemWord(String word) {
+        porterStemmer.setCurrent(word);
+        porterStemmer.stem();
+        return porterStemmer.getCurrent();
     }
 
     /**
@@ -103,9 +173,9 @@ public class Controller {
      * @param author
      * @return list
      */
-    public List<String> searchAuthor(String author){
+    private List<String> searchAuthor(String author){
         if(!dictionariesCreated) return new ArrayList<>();
-        List<String> list = search.searchAuthor(author);
+        List<String> list = searchObject.searchAuthor(author);
         if (list == null) return new ArrayList<>();
         else return list;
     }
@@ -115,10 +185,9 @@ public class Controller {
      * @param word
      * @return
      */
-    public List<String> searchOneWord(String word){
+    private List<String> searchOneWord(String word){
         if(!dictionariesCreated) return new ArrayList<>();
-
-        List<String> list = search.searchOneWord(word);
+        List<String> list = searchObject.searchOneWord(word);
         if (list == null) return new ArrayList<>();
         else return list;
     }
@@ -128,9 +197,9 @@ public class Controller {
      * @param words
      * @return
      */
-    public List<String> searchPhrase(List<String> words){
+    private List<String> searchPhrase(List<String> words){
         if(!dictionariesCreated) return new ArrayList<>();
-        List<String> list = search.searchPhrase(words);
+        List<String> list = searchObject.searchPhrase(words);
         if (list == null) return new ArrayList<>();
         else return list;
     }
@@ -141,9 +210,9 @@ public class Controller {
      * @param author
      * @return
      */
-    public List<String> searchOneWordAndFilterByAuthor(String word, String author){
+    private List<String> searchOneWordAndFilterByAuthor(String word, String author){
         if(!dictionariesCreated) return new ArrayList<>();
-        List<String> list = search.searchOneWordAndFilterByAuthor(word, author);
+        List<String> list = searchObject.searchOneWordAndFilterByAuthor(word, author);
         if (list == null) return new ArrayList<>();
         else return list;
     }
@@ -154,12 +223,14 @@ public class Controller {
      * @param author
      * @return
      */
-    public List<String> searchPhraseAndFilterByAuthor(List<String> words, String author){
+    private List<String> searchPhraseAndFilterByAuthor(List<String> words, String author){
         if(!dictionariesCreated) return new ArrayList<>();
-        List<String> list = search.searchPhraseAndFilterByAuthor(words, author);
+        List<String> list = searchObject.searchPhraseAndFilterByAuthor(words, author);
         if (list == null) return new ArrayList<>();
         else return list;
     }
+
+    // Reading from file and writing to file part.
 
     /**
      * Method enables to save created index to file.
@@ -210,7 +281,7 @@ public class Controller {
             authorDictionary = object.getAuthorDictionary();
             wordsDictionary = object.getWordsDictionary();
 
-            this.search = new Search(authorDictionary, wordsDictionary);
+            this.searchObject = new Search(authorDictionary, wordsDictionary);
             dictionariesCreated = true;
 
             return true;
