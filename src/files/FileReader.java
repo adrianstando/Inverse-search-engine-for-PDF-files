@@ -39,13 +39,32 @@ public class FileReader implements Runnable {
         if (file.getPath().equals(poison)){
             return new FileContent(file, "", "");
         } else {
-            PDDocument document = PDDocument.load(file);
-            PDDocumentInformation info = document.getDocumentInformation();
-            PDFTextStripper pdfTextStripper = new PDFTextStripper();
 
+            PDDocument document;
+            try {
+                document = PDDocument.load(file);
+                if (document.isEncrypted()){
+                    // if PDF file is encrypted
+                    document.close();
+                    return new FileContent(file, "", "");
+                }
+            } catch (IOException e) {
+                // if any problem with loading PDF file occurs
+                return new FileContent(file, "", "");
+            }
+
+            PDDocumentInformation info = document.getDocumentInformation();
             String author = info.getAuthor();
             if (author == null) author = "";
-            String text = pdfTextStripper.getText(document);
+
+            PDFTextStripper pdfTextStripper = new PDFTextStripper();
+            String text;
+            try {
+                text = pdfTextStripper.getText(document);
+            } catch (IOException e) {
+                text = "";
+            }
+
             if (text == null) text = "";
 
             document.close();
@@ -102,8 +121,4 @@ public class FileReader implements Runnable {
         running = false;
     }
 
-    /*public static void main(String[] args){
-        File file = new File("non.existing.file");
-        System.out.println(file.getPath());
-    }*/
 }
