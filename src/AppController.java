@@ -43,7 +43,7 @@ public class AppController {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(null);
         if(!(selectedDirectory == null)){
-            generateWaitingAlertAndDoTask("Building Index",
+            generateWaitingAlertAndDoTask("Building index",
                     "The index is being built from path: \n" + selectedDirectory.getAbsolutePath(),
                     "Error!",
                     () -> {
@@ -65,7 +65,7 @@ public class AppController {
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if(!(selectedFile == null)){
-            generateWaitingAlertAndDoTask("Reading Index",
+            generateWaitingAlertAndDoTask("Reading index",
                     "The index is being read from path: \n" + selectedFile.getAbsolutePath(),
                     "Error during reading index from file!",
                     () -> {
@@ -92,7 +92,7 @@ public class AppController {
         File file = fileChooser.showSaveDialog(null);
 
         if(!(file == null)){
-            generateWaitingAlertAndDoTask("Reading Index",
+            generateWaitingAlertAndDoTask("Writing index to file",
                     "The index is being written to path: \n" + file.getAbsolutePath(),
                     "Error during writing index to file!",
                     () -> {
@@ -182,6 +182,7 @@ public class AppController {
         int x = (int) Math.ceil((double)searchResults.size() / (double)maxItemsPerPage);
         results.setPageCount(x);
         results.setCurrentPageIndex(0);
+        results.setMaxPageIndicatorCount(Math.min(10, x));
 
         results.setPageFactory(this::createPage);
     }
