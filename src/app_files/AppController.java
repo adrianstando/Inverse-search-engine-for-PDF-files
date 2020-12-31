@@ -50,15 +50,22 @@ public class AppController {
         File selectedDirectory = directoryChooser.showDialog(null);
         if(!(selectedDirectory == null)){
             controller.setEnableStemmer(!disableEnglishStemmerButton.isSelected());
+
             generateWaitingAlertAndDoTask("Building index",
                     "The index is being built from path: \n" + selectedDirectory.getAbsolutePath(),
                     "Error!",
                     () -> {
+                        // controller after indexing sets current path
                         controller.createIndex(selectedDirectory.getAbsolutePath());
                         indexLoaded = true;
                         return true;
+                    },
+                    () -> {
+                        updateEnglishStemmerField();
+                        updatePathField();
                     });
-            updateEnglishStemmerField();
+
+
         }
     }
 
@@ -85,8 +92,11 @@ public class AppController {
                             indexLoaded = true;
                             return true;
                         }
+                    },
+                    () -> {
+                        updateEnglishStemmerField();
+                        updatePathField();
                     });
-            updateEnglishStemmerField();
         }
     }
 
@@ -113,7 +123,8 @@ public class AppController {
                             indexLoaded = true;
                             return true;
                         }
-                    });
+                    },
+                    () -> {} );
         }
     }
 
@@ -209,7 +220,8 @@ public class AppController {
      * @param text
      * @param func
      */
-    private void generateWaitingAlertAndDoTask(String title, String text, String textOnError, BooleanSupplier func){
+    private void generateWaitingAlertAndDoTask(String title, String text, String textOnError,
+                                               BooleanSupplier func, Runnable funcAtSuccess){
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle(title);
 
@@ -238,6 +250,7 @@ public class AppController {
         task.setOnSucceeded(e ->{
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
             alert.close();
+            funcAtSuccess.run();
         } );
         task.setOnFailed(e -> {
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
@@ -254,9 +267,9 @@ public class AppController {
 
     /**
      * Method updates current path field.
-     * @param path
      */
-    private void updatePathField(String path){
+    private void updatePathField(){
+        String path = controller.getCurrentPath();
         currentIndexPathField.setText("Path: " + path);
     }
 

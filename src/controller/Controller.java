@@ -24,6 +24,8 @@ public class Controller {
     private boolean dictionariesCreated = false;
     private boolean enableStemmer;
 
+    private String currentPath;
+
     private PorterStemmer porterStemmer = new PorterStemmer();
 
     private static List<String> commonWords = Arrays.stream(new String [] {"a", "able", "about", "all", "an", "and", "any", "are", "aren't", "isn't", "as", "at", "be", "been", "by",
@@ -101,6 +103,7 @@ public class Controller {
 
         this.searchObject = new Search(authorDictionary, wordsDictionary);
         dictionariesCreated = true;
+        currentPath = pathZero;
     }
 
      // Searching part.
@@ -250,7 +253,8 @@ public class Controller {
     public boolean writeDictionariesToFile(String path){
         if(!dictionariesCreated) return false;
         // Create SerializableDictionaries object
-        SerializableDictionaries object = new SerializableDictionaries(wordsDictionary, authorDictionary, enableStemmer);
+        SerializableDictionaries object = new SerializableDictionaries(wordsDictionary, authorDictionary,
+                enableStemmer, currentPath);
 
         //Saving object to file
         FileOutputStream file = null;
@@ -291,6 +295,7 @@ public class Controller {
             authorDictionary = object.getAuthorDictionary();
             wordsDictionary = object.getWordsDictionary();
             enableStemmer = object.isEnableStemmer();
+            currentPath = object.getCurrentPath();
 
             this.searchObject = new Search(authorDictionary, wordsDictionary);
             dictionariesCreated = true;
@@ -317,6 +322,14 @@ public class Controller {
         return enableStemmer;
     }
 
+    public String getCurrentPath() {
+        return currentPath;
+    }
+
+    public void setCurrentPath(String currentPath) {
+        this.currentPath = currentPath;
+    }
+
     /**
      * Additional class, required in reading and writing dictionaries from and to file.
      */
@@ -324,11 +337,14 @@ public class Controller {
         private AuthorDictionary authorDictionary;
         private WordsDictionary wordsDictionary;
         private boolean enableStemmer;
+        private String currentPath;
 
-        public SerializableDictionaries(WordsDictionary wordsDictionary, AuthorDictionary authorDictionary, boolean enableStemmer) {
+        public SerializableDictionaries(WordsDictionary wordsDictionary, AuthorDictionary authorDictionary,
+                                        boolean enableStemmer, String currentPath) {
             this.wordsDictionary = wordsDictionary;
             this.authorDictionary = authorDictionary;
             this.enableStemmer = enableStemmer;
+            this.currentPath = currentPath;
         }
 
         public AuthorDictionary getAuthorDictionary() {
@@ -353,6 +369,14 @@ public class Controller {
 
         public void setEnableStemmer(boolean enableStemmer) {
             this.enableStemmer = enableStemmer;
+        }
+
+        public String getCurrentPath() {
+            return currentPath;
+        }
+
+        public void setCurrentPath(String currentPath) {
+            this.currentPath = currentPath;
         }
     }
 }
