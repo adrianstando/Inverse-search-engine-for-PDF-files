@@ -22,15 +22,7 @@ public class AuthorDictionary implements Dictionary, Serializable {
      * @param author
      * @param path
      */
-    public void add(String author, String path){
-        /*Author obj = dictionary.get(author);
-        if(obj == null){
-            obj = new Author(author);
-        }
-
-        obj.add(path);
-        dictionary.put(author, obj);*/
-
+    public synchronized void add(String author, String path){
         if (author.equals("")) return;
 
         Author x = dictionary.putIfAbsent(author, new Author(author, path));

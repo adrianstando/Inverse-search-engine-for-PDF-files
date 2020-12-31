@@ -55,18 +55,6 @@ public class InvertedIndex implements Runnable{
                     .map(this::stemWord)
                     .forEach(s -> wordsDictionary.add(removeNewLineChar(s), path, linesIterator(s)));
 
-            /*Stream.of(text.split(" "))
-                    .map(String::toLowerCase)
-                    .filter(r -> ! (r.equals(" ") || r.equals("")))
-                    .map(r -> r.replaceAll("\n", "!")).forEach(System.out::println);*/
-
-            /*Stream.of(text.split(" "))
-                    .map(String::toLowerCase)
-                    .filter(r -> ! (r.equals(" ") || r.equals("")))
-                    .filter(r -> !commonWords.contains(r))
-                    .map(this::stemWord)
-                    .forEach(s -> System.out.println(removeNewLineChar(s)));*/
-
             authorDictionary.add(fileContent.getAuthor(), path);
         }
 
