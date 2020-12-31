@@ -405,12 +405,158 @@ class SearchTest {
 
     @Test
     void searchPhraseTest(){
+        AuthorDictionary authorDictionary = new AuthorDictionary();
 
+        WordsDictionary wordsDictionary = new WordsDictionary();
+
+        List<String> words1 = Arrays.stream(new String[] {"aa", "bb", "cc", "dd"}).collect(Collectors.toList());
+        List<String> words2 = Arrays.stream(new String[] {"ss", "dd", "ff", "gg"}).collect(Collectors.toList());
+
+        List<String> paths1 = Arrays.stream(new String[] {"1path1a", "1path2a", "1path3a"}).collect(Collectors.toList());
+        List<String> paths2 = Arrays.stream(new String[] {"2path1a", "2path2a", "2path3a"}).collect(Collectors.toList());
+
+        List<Integer> positions1 = Arrays.stream(new Integer[] {1, 1, 4}).collect(Collectors.toList());
+        List<Integer> positions2 = Arrays.stream(new Integer[] {2, 3, 5, 10}).collect(Collectors.toList());
+        List<Integer> positions3 = Arrays.stream(new Integer[] {2, 3, 5, 10, 100}).collect(Collectors.toList());
+
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(String a : words1){
+                    for(Integer x : positions3){
+                        wordsDictionary.add(a, paths1.get(0), x);
+                    }
+                    for(Integer x : positions2){
+                        wordsDictionary.add(a, paths1.get(1), x);
+                    }
+                }
+                for(String a : words2){
+                    for(Integer x : positions3){
+                        wordsDictionary.add(a, paths1.get(0), x);
+                    }
+                    for(Integer x : positions2){
+                        wordsDictionary.add(a, paths1.get(1), x);
+                    }
+                }
+            }
+        });
+
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(String a : words2){
+                    for(Integer x : positions3){
+                        wordsDictionary.add(a, paths1.get(2), x);
+                    }
+                }
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Search search = new Search(authorDictionary, wordsDictionary);
+        List<String> out1 = search.searchPhrase(Arrays.stream(new String[] {"ss", "aa"}).collect(Collectors.toList()));
+        assertEquals(2, out1.size());
+        for(String x : out1){
+            assertTrue(paths1.contains(x));
+        }
+
+        wordsDictionary.add("extra", paths1.get(2), 11);
+        search = new Search(authorDictionary, wordsDictionary);
+        List<String> out2 = search.searchPhrase(Arrays.stream(new String[] {"ss", "extra"}).collect(Collectors.toList()));
+        assertEquals(0, out2.size());
+
+        wordsDictionary.add("extra", paths1.get(2), 10);
+        search = new Search(authorDictionary, wordsDictionary);
+        List<String> out3 = search.searchPhrase(Arrays.stream(new String[] {"ss", "extra"}).collect(Collectors.toList()));
+        assertEquals(1, out3.size());
     }
 
 
     @Test
     void searchPhraseAndFilterByAuthorTest(){
+        AuthorDictionary authorDictionary = new AuthorDictionary();
 
+        WordsDictionary wordsDictionary = new WordsDictionary();
+
+        List<String> words1 = Arrays.stream(new String[] {"aa", "bb", "cc", "dd"}).collect(Collectors.toList());
+        List<String> words2 = Arrays.stream(new String[] {"ss", "dd", "ff", "gg"}).collect(Collectors.toList());
+
+        List<String> paths1 = Arrays.stream(new String[] {"1path1a", "1path2a", "1path3a"}).collect(Collectors.toList());
+        List<String> paths2 = Arrays.stream(new String[] {"2path1a", "2path2a", "2path3a"}).collect(Collectors.toList());
+
+        List<Integer> positions1 = Arrays.stream(new Integer[] {1, 1, 4}).collect(Collectors.toList());
+        List<Integer> positions2 = Arrays.stream(new Integer[] {2, 3, 5, 10}).collect(Collectors.toList());
+        List<Integer> positions3 = Arrays.stream(new Integer[] {2, 3, 5, 10, 100}).collect(Collectors.toList());
+
+        List<String> authors1 = Arrays.stream(new String[] {"a", "b"}).collect(Collectors.toList());
+        List<String> authors2 = Arrays.stream(new String[] {"s", "d"}).collect(Collectors.toList());
+
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(String a : words1){
+                    for(Integer x : positions3){
+                        wordsDictionary.add(a, paths1.get(0), x);
+                    }
+                    for(Integer x : positions2){
+                        wordsDictionary.add(a, paths1.get(1), x);
+                    }
+                }
+                for(String a : words2){
+                    for(Integer x : positions3){
+                        wordsDictionary.add(a, paths1.get(0), x);
+                    }
+                    for(Integer x : positions2){
+                        wordsDictionary.add(a, paths1.get(1), x);
+                    }
+                }
+            }
+        });
+
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(String a : words2){
+                    for(Integer x : positions3){
+                        wordsDictionary.add(a, paths1.get(2), x);
+                    }
+                }
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+
+        authorDictionary.add(authors1.get(0), paths1.get(0));
+        authorDictionary.add(authors1.get(1), paths1.get(1));
+
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Search search = new Search(authorDictionary, wordsDictionary);
+        List<String> out1 = search.searchPhraseAndFilterByAuthor(Arrays.stream(new String[] {"ss", "aa"}).collect(Collectors.toList()), authors1.get(0));
+        assertEquals(1, out1.size());
+
+        List<String> out2 = search.searchPhraseAndFilterByAuthor(Arrays.stream(new String[] {"ss", "aa"}).collect(Collectors.toList()), authors1.get(1));
+        assertEquals(1, out2.size());
+
+        List<String> out = search.searchPhrase(Arrays.stream(new String[] {"ss", "aa"}).collect(Collectors.toList()));
+        assertEquals(2, out.size());
+        for(String x : out){
+            assertTrue(paths1.contains(x));
+        }
     }
 }
