@@ -15,6 +15,12 @@ public class App extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("App.fxml"));
         primaryStage.setTitle("Inverse search engine for PDF files");
         primaryStage.setScene(new Scene(root, 600, 600));
+
+        primaryStage.setMaxWidth(600);
+        primaryStage.setMinWidth(600);
+        primaryStage.setMaxHeight(630);
+        primaryStage.setMinHeight(630);
+
         primaryStage.show();
     }
 }
