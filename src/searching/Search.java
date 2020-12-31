@@ -99,7 +99,8 @@ public class Search {
         for (String path : paths) {
             // get positions of first word in path
             // we iterate through paths from first word, so commonPositions can't be null (for now)
-            List<Integer> commonPositions = listOfWordObjects.get(0).getPositionsOfTheWordInFile(path);
+            List<Integer> commonPositionsExtracted = listOfWordObjects.get(0).getPositionsOfTheWordInFile(path);
+            List<Integer> commonPositions = new ArrayList<>(commonPositionsExtracted);
             boolean wasInLastPath = true;
             for (int i = 1; i < listOfWordObjects.size(); i++) {
                 List<Integer> tmp = listOfWordObjects.get(i).getPositionsOfTheWordInFile(path);

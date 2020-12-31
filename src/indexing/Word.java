@@ -87,7 +87,9 @@ public class Word implements PDFComponent, Serializable {
 
     @Override
     public String toString() {
-        return  word + "; " + position.toString();
+        if(outputPositionsNeedsUpdate.get()) getAllFilesWithPositions();
+
+        return  word + "; " + outputPositions.toString();
     }
 
     /**
@@ -95,10 +97,6 @@ public class Word implements PDFComponent, Serializable {
      */
     private void outputNeedToBeUpdated(){
         this.outputPositionsNeedsUpdate.set(true);
-    }
-
-    public String getWord() {
-        return word;
     }
 
     @Override
