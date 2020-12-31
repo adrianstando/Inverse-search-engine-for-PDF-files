@@ -47,7 +47,7 @@ class InvertedIndexTest {
 
         AuthorDictionary authorDictionary = new AuthorDictionary();
 
-        InvertedIndex invertedIndex = new InvertedIndex(filesContent, wordsDictionary, authorDictionary, commonWords);
+        InvertedIndex invertedIndex = new InvertedIndex(filesContent, wordsDictionary, authorDictionary, commonWords, true);
 
         Thread thread = new Thread(invertedIndex);
         thread.start();
@@ -117,7 +117,7 @@ class InvertedIndexTest {
 
         Thread[] indexingThreads = new Thread[numberOfIndexingThreads];
         for(int i = 0; i < numberOfIndexingThreads; i++){
-            indexingThreads[i] = new Thread(new InvertedIndex(filesContent, wordsDictionary, authorDictionary, commonWords));
+            indexingThreads[i] = new Thread(new InvertedIndex(filesContent, wordsDictionary, authorDictionary, commonWords, true));
             indexingThreads[i].start();
         }
 
@@ -196,7 +196,7 @@ class InvertedIndexTest {
 
         Thread[] indexingThreads = new Thread[numberOfIndexingThreads];
         for(int i = 0; i < numberOfIndexingThreads; i++){
-            indexingThreads[i] = new Thread(new InvertedIndex(filesContent, wordsDictionary, authorDictionary, commonWords));
+            indexingThreads[i] = new Thread(new InvertedIndex(filesContent, wordsDictionary, authorDictionary, commonWords, true));
             indexingThreads[i].start();
         }
 

@@ -19,8 +19,8 @@ public class App extends Application {
 
         primaryStage.setMaxWidth(600);
         primaryStage.setMinWidth(600);
-        primaryStage.setMaxHeight(630);
-        primaryStage.setMinHeight(630);
+        primaryStage.setMaxHeight(730);
+        primaryStage.setMinHeight(730);
 
         primaryStage.getIcons().add(new Image(App.class.getResourceAsStream("app_files/icon.png")));
 

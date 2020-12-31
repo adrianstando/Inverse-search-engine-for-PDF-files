@@ -11,7 +11,7 @@ class ControllerTest {
 
     @Test
     void writeAndReadObjectsTest(){
-        Controller controller = new Controller();
+        Controller controller = new Controller(true);
         controller.createIndex("./src/tests/testFiles");
 
         boolean b;
@@ -22,7 +22,7 @@ class ControllerTest {
         WordsDictionary wordsDictionary1 = controller.getWordsDictionary();
         AuthorDictionary authorDictionary1 = controller.getAuthorDictionary();
 
-        Controller controller2 = new Controller();
+        Controller controller2 = new Controller(true);
         controller2.createIndex("./src/tests/testFiles");
 
         b = controller2.readDictionariesFromFile("./src/tests/testFiles/dictionaries.ser");

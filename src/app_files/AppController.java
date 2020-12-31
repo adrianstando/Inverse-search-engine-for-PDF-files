@@ -30,8 +30,12 @@ public class AppController {
     public TextField textAuthor;
     public Button buttonSearch;
     public Pagination results = new Pagination(5, 0);
+    public CheckBox disableEnglishStemmerButton;
+    public Label currentIndexTextField;
+    public Label currentIndexPathField;
+    public Label currentIndexEnglishStemmerField;
 
-    private Controller controller = new Controller();
+    private Controller controller = new Controller(true);
     private boolean indexLoaded = false;
 
     private List<String> searchResults = new ArrayList<>();
@@ -45,6 +49,7 @@ public class AppController {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(null);
         if(!(selectedDirectory == null)){
+            controller.setEnableStemmer(!disableEnglishStemmerButton.isSelected());
             generateWaitingAlertAndDoTask("Building index",
                     "The index is being built from path: \n" + selectedDirectory.getAbsolutePath(),
                     "Error!",
@@ -53,6 +58,7 @@ public class AppController {
                         indexLoaded = true;
                         return true;
                     });
+            updateEnglishStemmerField();
         }
     }
 
@@ -80,6 +86,7 @@ public class AppController {
                             return true;
                         }
                     });
+            updateEnglishStemmerField();
         }
     }
 
@@ -243,6 +250,25 @@ public class AppController {
         alert.show();
         Thread taskThread = new Thread(task);
         taskThread.start();
+    }
+
+    /**
+     * Method updates current path field.
+     * @param path
+     */
+    private void updatePathField(String path){
+        currentIndexPathField.setText("Path: " + path);
+    }
+
+    /**
+     * Method updates current English Stemmer state field.
+     */
+    private void updateEnglishStemmerField(){
+        if(controller.isEnableStemmer()){
+            currentIndexEnglishStemmerField.setText("English Stemmer: ENABLED");
+        } else {
+            currentIndexEnglishStemmerField.setText("English Stemmer: DISABLED");
+        }
     }
 
 }

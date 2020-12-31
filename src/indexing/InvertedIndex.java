@@ -14,6 +14,7 @@ public class InvertedIndex implements Runnable{
     private BlockingQueue<FileContent> filesContent;
     private WordsDictionary wordsDictionary;
     private AuthorDictionary authorDictionary;
+    private boolean enableStemmer;
 
     private PorterStemmer porterStemmer = new PorterStemmer();
 
@@ -23,11 +24,14 @@ public class InvertedIndex implements Runnable{
 
     private final List<String> commonWords;
 
-    public InvertedIndex(BlockingQueue<FileContent> filesContent, WordsDictionary wordsDictionary, AuthorDictionary authorDictionary, List<String> commonWords){
+    public InvertedIndex(BlockingQueue<FileContent> filesContent, WordsDictionary wordsDictionary,
+                         AuthorDictionary authorDictionary, List<String> commonWords, boolean enableStemmer){
+
         this.filesContent = filesContent;
         this.wordsDictionary = wordsDictionary;
         this.authorDictionary = authorDictionary;
         this.commonWords = commonWords;
+        this.enableStemmer = enableStemmer;
     }
 
     /**
@@ -44,16 +48,23 @@ public class InvertedIndex implements Runnable{
             String path = fileContent.getFile().getPath();
 
             String text = fileContent.getContent();
-            //System.out.println(text);
             text = convertInputText(text);
-            //System.out.println(text);
 
-            Stream.of(text.split(" "))
-                    .map(String::toLowerCase)
-                    .filter(r -> ! (r.equals(" ") || r.equals("")))
-                    .filter(r -> !commonWords.contains(r))
-                    .map(this::stemWord)
-                    .forEach(s -> wordsDictionary.add(removeNewLineChar(s), path, linesIterator(s)));
+            if(enableStemmer){
+                Stream.of(text.split(" "))
+                        .map(String::toLowerCase)
+                        .filter(r -> ! (r.equals(" ") || r.equals("")))
+                        .filter(r -> !commonWords.contains(r))
+                        .map(this::stemWord)
+                        .forEach(s -> wordsDictionary.add(removeNewLineChar(s), path, linesIterator(s)));
+            } else {
+                Stream.of(text.split(" "))
+                        .map(String::toLowerCase)
+                        .filter(r -> ! (r.equals(" ") || r.equals("")))
+                        .filter(r -> !commonWords.contains(r))
+                        .forEach(s -> wordsDictionary.add(removeNewLineChar(s), path, linesIterator(s)));
+            }
+
 
             authorDictionary.add(fileContent.getAuthor(), path);
         }

@@ -22,6 +22,7 @@ public class Controller {
     private AuthorDictionary authorDictionary;
     private Search searchObject;
     private boolean dictionariesCreated = false;
+    private boolean enableStemmer;
 
     private PorterStemmer porterStemmer = new PorterStemmer();
 
@@ -33,8 +34,8 @@ public class Controller {
             .map(r -> r.replaceAll("[^\\p{IsAlphabetic})]+", "")).collect(Collectors.toList());
 
 
-    public Controller(){
-
+    public Controller(boolean enableStemmer){
+        this.enableStemmer = enableStemmer;
     }
 
      //Creating index part.
@@ -81,7 +82,7 @@ public class Controller {
         // start threads building InvertedIndex
         Thread[] indexingThreads = new Thread[numberOfIndexingThreads];
         for(int i = 0; i < numberOfIndexingThreads; i++){
-            indexingThreads[i] = new Thread(new InvertedIndex(filesContent, wordsDictionary, authorDictionary, commonWords));
+            indexingThreads[i] = new Thread(new InvertedIndex(filesContent, wordsDictionary, authorDictionary, commonWords, enableStemmer));
             indexingThreads[i].start();
         }
 
@@ -148,13 +149,22 @@ public class Controller {
     private List<String> processInputText(String text){
         if(text == null) return new ArrayList<>();
 
-        return Arrays.stream(text.split("\\s+"))
-                .filter(r -> !commonWords.contains(r))
-                .filter(r -> !(r.equals("") || r.equals(" ")))
-                .map(r -> r.replaceAll(" ", ""))
-                .map(String::toLowerCase)
-                .map(this::stemWord)
-                .collect(Collectors.toList());
+        if(enableStemmer){
+            return Arrays.stream(text.split("\\s+"))
+                    .filter(r -> !commonWords.contains(r))
+                    .filter(r -> !(r.equals("") || r.equals(" ")))
+                    .map(r -> r.replaceAll(" ", ""))
+                    .map(String::toLowerCase)
+                    .map(this::stemWord)
+                    .collect(Collectors.toList());
+        } else {
+            return Arrays.stream(text.split("\\s+"))
+                    .filter(r -> !commonWords.contains(r))
+                    .filter(r -> !(r.equals("") || r.equals(" ")))
+                    .map(r -> r.replaceAll(" ", ""))
+                    .map(String::toLowerCase)
+                    .collect(Collectors.toList());
+        }
     }
 
     /**
@@ -240,7 +250,7 @@ public class Controller {
     public boolean writeDictionariesToFile(String path){
         if(!dictionariesCreated) return false;
         // Create SerializableDictionaries object
-        SerializableDictionaries object = new SerializableDictionaries(wordsDictionary, authorDictionary);
+        SerializableDictionaries object = new SerializableDictionaries(wordsDictionary, authorDictionary, enableStemmer);
 
         //Saving object to file
         FileOutputStream file = null;
@@ -280,6 +290,7 @@ public class Controller {
             // Save data to this class attributes
             authorDictionary = object.getAuthorDictionary();
             wordsDictionary = object.getWordsDictionary();
+            enableStemmer = object.isEnableStemmer();
 
             this.searchObject = new Search(authorDictionary, wordsDictionary);
             dictionariesCreated = true;
@@ -298,16 +309,26 @@ public class Controller {
         return authorDictionary;
     }
 
+    public void setEnableStemmer(boolean enableStemmer) {
+        this.enableStemmer = enableStemmer;
+    }
+
+    public boolean isEnableStemmer() {
+        return enableStemmer;
+    }
+
     /**
      * Additional class, required in reading and writing dictionaries from and to file.
      */
     private static class SerializableDictionaries implements Serializable {
         private AuthorDictionary authorDictionary;
         private WordsDictionary wordsDictionary;
+        private boolean enableStemmer;
 
-        public SerializableDictionaries(WordsDictionary wordsDictionary, AuthorDictionary authorDictionary) {
+        public SerializableDictionaries(WordsDictionary wordsDictionary, AuthorDictionary authorDictionary, boolean enableStemmer) {
             this.wordsDictionary = wordsDictionary;
             this.authorDictionary = authorDictionary;
+            this.enableStemmer = enableStemmer;
         }
 
         public AuthorDictionary getAuthorDictionary() {
@@ -324,6 +345,14 @@ public class Controller {
 
         public void setWordsDictionary(WordsDictionary wordsDictionary) {
             this.wordsDictionary = wordsDictionary;
+        }
+
+        public boolean isEnableStemmer() {
+            return enableStemmer;
+        }
+
+        public void setEnableStemmer(boolean enableStemmer) {
+            this.enableStemmer = enableStemmer;
         }
     }
 }
