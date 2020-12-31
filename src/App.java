@@ -13,7 +13,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("App.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("app_files/App.fxml"));
         primaryStage.setTitle("Inverse search engine for PDF files");
         primaryStage.setScene(new Scene(root, 600, 600));
 
@@ -22,7 +22,7 @@ public class App extends Application {
         primaryStage.setMaxHeight(630);
         primaryStage.setMinHeight(630);
 
-        primaryStage.getIcons().add(new Image(App.class.getResourceAsStream("icon.png")));
+        primaryStage.getIcons().add(new Image(App.class.getResourceAsStream("app_files/icon.png")));
 
         primaryStage.show();
     }
