@@ -30,15 +30,15 @@ The app uses by default [PorterStemmer](https://opennlp.apache.org/docs/1.7.2/ap
 
 ![Building index](/images/building_index.jpg)
 
-3. Once index is built, you can search words and phrases. To do it, type in them into text field next to **Words**. If you want to choose files created by only one particular author, type in its name next to **Author**, and click **SEARCH** button.
+3. Once index is built, you can search words and phrases. To do it, type in them into text field next to **Words**. If you want to choose files created only by  one particular author, type in its name next to **Author**, and click **SEARCH** button.
 
 ![Searching](/images/searching.jpg)
 
-4. You will see results below sorted by the number of occurences. The file name is displayed in blue and it's path in black below. Note that text in blue is hyperlink and once you click it, the corresponding file will open.
+4. You will see results below sorted by the number of occurences. The file name is displayed in blue and it's path in black below. Note that text in blue is hyperlink and if you click it, the corresponding file opens.
 
 ![Results](/images/results.jpg)
 
-5. You can also write created index to file by clicking `Write index to file` button. Next time you want to search something in the same path, you can just simply load created index from file by clicking `Read index from file`.
+5. You can also write created index to file by clicking **Write index to file** button. Next time you want to search something in the same path, you can just simply load created index from file by clicking **Read index from file**.
 
 ![Saving and loading index](/images/saving_and_loading_index.jpg)
 
