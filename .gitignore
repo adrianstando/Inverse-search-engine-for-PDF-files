@@ -1,5 +1,6 @@
 # Project exclude paths
-/out/
+/out/artifacts
+/out/production
 /.idea
 *.iml
 /dysk
