@@ -8,12 +8,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -211,6 +213,9 @@ public class AppController {
             Platform.runLater(() -> alert.setResizable(false));
         });
 
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("app_files/error.png"));
+
         alert.showAndWait();
     }
 
@@ -238,6 +243,9 @@ public class AppController {
         alert.onShownProperty().addListener(e -> {
             Platform.runLater(() -> alert.setResizable(false));
         });
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("app_files/load.png"));
 
         Task<Boolean> task = new Task<Boolean>() {
             @Override
