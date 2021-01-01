@@ -33,6 +33,8 @@ class ControllerTest {
 
         assertEquals(wordsDictionary1.getDictionary(), wordsDictionary2.getDictionary());
         assertEquals(authorDictionary1.getDictionary(), authorDictionary2.getDictionary());
+        assertEquals(controller.getCurrentPath(), controller2.getCurrentPath());
+        assertEquals(controller.isEnableStemmer(), controller2.isEnableStemmer());
     }
 
     @Test
