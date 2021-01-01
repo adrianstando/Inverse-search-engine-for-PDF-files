@@ -1,7 +1,5 @@
 # Inverse search engine for PDF files
 
-Project for Java course for Data Science studies at MiNI, Warsaw University of Technology.
-
 ## App description
 
 The app builds [Inverted index](https://en.wikipedia.org/wiki/Inverted_index) from all `*.pdf` files stored in chosen directory and its subdirectories so as to enable fast word (and phrase) searches.
@@ -43,3 +41,7 @@ The app uses by default [PorterStemmer](https://opennlp.apache.org/docs/1.7.2/ap
 5. You can also write created index to file by clicking `Write index to file` button. Next time you want to search something in the same path, you can just simply load created index from file by clicking `Read index from file`.
 
 ![Saving and loading index](/images/saving_and_loading_index.jpg)
+
+## Project purpose
+
+It is the final project created during Java course at Data Science studies at MiNI, Warsaw University of Technology.
