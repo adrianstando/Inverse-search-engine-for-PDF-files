@@ -246,16 +246,25 @@ public class AppController {
             }
         };
 
-        // when task ends, the alert disappears
-        task.setOnSucceeded(e ->{
-            alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
-            alert.close();
-            funcAtSuccess.run();
-        } );
-        task.setOnFailed(e -> {
+        // instructions to do on error (when task fails or returns false)
+        Runnable doOnError = () -> {
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
             alert.close();
             generateErrorAlert(textOnError);
+        };
+
+        // when task ends, the alert disappears
+        task.setOnSucceeded(e ->{
+            if(task.getValue()){
+                alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+                alert.close();
+                funcAtSuccess.run();
+            } else {
+                doOnError.run();
+            }
+        } );
+        task.setOnFailed(e -> {
+            doOnError.run();
         });
 
 

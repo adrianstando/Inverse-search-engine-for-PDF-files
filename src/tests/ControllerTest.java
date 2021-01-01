@@ -35,4 +35,13 @@ class ControllerTest {
         assertEquals(authorDictionary1.getDictionary(), authorDictionary2.getDictionary());
     }
 
+    @Test
+    void readFromWrongFile(){
+        Controller controller = new Controller(true);
+        boolean b = controller.readDictionariesFromFile("./src/tests/testFiles/x.ser");
+        assertFalse(b);
+
+        assertNull(controller.getCurrentPath());
+    }
+
 }
