@@ -33,7 +33,7 @@ public class Word implements PDFComponent, Serializable {
      * @param path
      * @param positionInFile
      */
-    public synchronized void add(String path, int positionInFile) {
+    public void add(String path, int positionInFile) {
         LinkedBlockingQueue<Integer> x = position.putIfAbsent(path, new LinkedBlockingQueue<Integer>(Collections.singleton(positionInFile)));
         if (x != null) {
             try {

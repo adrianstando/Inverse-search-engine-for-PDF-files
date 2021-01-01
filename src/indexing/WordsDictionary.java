@@ -22,7 +22,7 @@ public class WordsDictionary implements Dictionary, Serializable {
      * @param path
      * @param positionInFile
      */
-    public synchronized void add(String word, String path, int positionInFile){
+    public void add(String word, String path, int positionInFile){
         if (word.equals("")) return;
 
         Word x = dictionary.putIfAbsent(word, new Word(word, path, positionInFile));

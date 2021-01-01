@@ -22,7 +22,7 @@ public class AuthorDictionary implements Dictionary, Serializable {
      * @param author
      * @param path
      */
-    public synchronized void add(String author, String path){
+    public void add(String author, String path){
         if (author.equals("")) return;
 
         Author x = dictionary.putIfAbsent(author, new Author(author, path));
