@@ -1,8 +1,9 @@
 package tests;
 
-import files.FileContent;
-import files.FileFinder;
-import files.FileReader;
+
+import main.java.inverted_index_search_engine.files.FileContent;
+import main.java.inverted_index_search_engine.files.FileFinder;
+import main.java.inverted_index_search_engine.files.FileReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

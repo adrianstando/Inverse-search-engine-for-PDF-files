@@ -1,4 +1,4 @@
-package files;
+package main.java.inverted_index_search_engine.files;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;

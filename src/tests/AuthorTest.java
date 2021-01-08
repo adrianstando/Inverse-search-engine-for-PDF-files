@@ -1,6 +1,7 @@
 package tests;
 
-import indexing.Author;
+
+import main.java.inverted_index_search_engine.indexing.Author;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

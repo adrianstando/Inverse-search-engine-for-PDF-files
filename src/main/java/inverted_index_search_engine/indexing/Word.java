@@ -1,4 +1,4 @@
-package indexing;
+package main.java.inverted_index_search_engine.indexing;
 
 import java.io.Serializable;
 import java.util.*;

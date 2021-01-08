@@ -1,18 +1,19 @@
 package tests;
 
-import files.FileContent;
-import files.FileFinder;
-import files.FileReader;
-import indexing.*;
+
+import main.java.inverted_index_search_engine.files.FileContent;
+import main.java.inverted_index_search_engine.files.FileFinder;
+import main.java.inverted_index_search_engine.files.FileReader;
+import main.java.inverted_index_search_engine.indexing.AuthorDictionary;
+import main.java.inverted_index_search_engine.indexing.InvertedIndex;
+import main.java.inverted_index_search_engine.indexing.WordsDictionary;
 import org.junit.jupiter.api.Test;
 import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 

@@ -1,4 +1,4 @@
-package app_files;
+package main.java.inverted_index_search_engine.app;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/resources/App.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/main/resources/App.fxml"));
         primaryStage.setTitle("Inverse search engine for PDF files");
         primaryStage.setScene(new Scene(root, 600, 600));
 
@@ -24,7 +24,7 @@ public class App extends Application {
         primaryStage.setMaxHeight(730);
         primaryStage.setMinHeight(730);
 
-        primaryStage.getIcons().add(new Image(App.class.getResourceAsStream("/resources/icon.png")));
+        primaryStage.getIcons().add(new Image(App.class.getResourceAsStream("/main/resources/icon.png")));
 
         primaryStage.show();
     }

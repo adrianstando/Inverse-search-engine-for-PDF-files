@@ -1,8 +1,8 @@
-package indexing;
+package main.java.inverted_index_search_engine.indexing;
 
-import files.FileContent;
+
+import main.java.inverted_index_search_engine.files.FileContent;
 import org.tartarus.snowball.ext.PorterStemmer;
-
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.stream.Stream;

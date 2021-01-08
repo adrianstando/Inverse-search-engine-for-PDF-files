@@ -1,9 +1,10 @@
 package tests;
 
-import indexing.AuthorDictionary;
-import indexing.WordsDictionary;
+import main.java.inverted_index_search_engine.controller.Controller;
+import main.java.inverted_index_search_engine.indexing.AuthorDictionary;
+import main.java.inverted_index_search_engine.indexing.WordsDictionary;
 import org.junit.jupiter.api.Test;
-import controller.Controller;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 

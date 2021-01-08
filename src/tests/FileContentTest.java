@@ -1,6 +1,7 @@
 package tests;
 
-import files.FileContent;
+
+import main.java.inverted_index_search_engine.files.FileContent;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

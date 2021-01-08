@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.202" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app_files.AppController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.202" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.inverted_index_search_engine.app.AppController">
    <children>
       <Button fx:id="buttonChoosePathToIndex" layoutX="22.0" layoutY="30.0" mnemonicParsing="false" onAction="#choosePathToIndex" text="Choose path to index" />
       <Button fx:id="buttonReadIndexFromFile" layoutX="237.0" layoutY="30.0" mnemonicParsing="false" onAction="#readIndexFromFile" text="Read index from file" />

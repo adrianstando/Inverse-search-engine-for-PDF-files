@@ -1,10 +1,14 @@
-package controller;
+package main.java.inverted_index_search_engine.controller;
 
-import files.*;
-import files.FileReader;
-import indexing.*;
+
+import main.java.inverted_index_search_engine.files.*;
+import main.java.inverted_index_search_engine.files.FileReader;
+import main.java.inverted_index_search_engine.indexing.AuthorDictionary;
+import main.java.inverted_index_search_engine.indexing.InvertedIndex;
+import main.java.inverted_index_search_engine.indexing.WordsDictionary;
+import main.java.inverted_index_search_engine.searching.Search;
 import org.tartarus.snowball.ext.PorterStemmer;
-import searching.Search;
+
 
 import java.io.*;
 import java.util.*;

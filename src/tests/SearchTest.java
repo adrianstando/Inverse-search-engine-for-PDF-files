@@ -1,11 +1,11 @@
 package tests;
 
-import indexing.Author;
-import indexing.AuthorDictionary;
-import indexing.Word;
-import indexing.WordsDictionary;
+
+import main.java.inverted_index_search_engine.indexing.AuthorDictionary;
+import main.java.inverted_index_search_engine.indexing.WordsDictionary;
+import main.java.inverted_index_search_engine.searching.Search;
 import org.junit.jupiter.api.Test;
-import searching.Search;
+
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

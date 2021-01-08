@@ -1,6 +1,5 @@
-package app_files;
+package main.java.inverted_index_search_engine.app;
 
-import controller.Controller;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -16,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import main.java.inverted_index_search_engine.controller.Controller;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -221,7 +221,7 @@ public class AppController {
         });
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("/resources/error.png"));
+        stage.getIcons().add(new Image("/main/resources/error.png"));
 
         alert.showAndWait();
     }
@@ -252,7 +252,7 @@ public class AppController {
         });
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("/resources/load.png"));
+        stage.getIcons().add(new Image("/main/resources/load.png"));
 
         Task<Boolean> task = new Task<Boolean>() {
             @Override

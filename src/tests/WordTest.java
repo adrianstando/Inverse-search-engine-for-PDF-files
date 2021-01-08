@@ -1,6 +1,7 @@
 package tests;
 
-import indexing.Word;
+
+import main.java.inverted_index_search_engine.indexing.Word;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

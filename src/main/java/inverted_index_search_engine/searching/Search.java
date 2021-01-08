@@ -1,10 +1,11 @@
-package searching;
+package main.java.inverted_index_search_engine.searching;
 
-import indexing.Author;
-import indexing.AuthorDictionary;
-import indexing.Word;
-import indexing.WordsDictionary;
+
 import javafx.util.Pair;
+import main.java.inverted_index_search_engine.indexing.Author;
+import main.java.inverted_index_search_engine.indexing.AuthorDictionary;
+import main.java.inverted_index_search_engine.indexing.Word;
+import main.java.inverted_index_search_engine.indexing.WordsDictionary;
 
 import java.util.*;
 import java.util.stream.Collectors;
