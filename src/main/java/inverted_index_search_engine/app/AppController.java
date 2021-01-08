@@ -142,7 +142,10 @@ public class AppController {
      */
     public void searchByWordsAndAuthor(ActionEvent actionEvent) {
         // when someone wants to search before loading/creating index
-        if(!indexLoaded) generateErrorAlert("Index was neither created nor loaded!");
+        if(!indexLoaded){
+            generateErrorAlert("Index was neither created nor loaded!");
+            return;
+        }
 
         String input = textWords.getText();
         String author = textAuthor.getText();
