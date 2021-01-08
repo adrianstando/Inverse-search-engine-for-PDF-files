@@ -16,7 +16,7 @@ To run application on Windows, just open `Inverse-search-engine-for-PDF-files.ex
 To run application on Linux, type in in following command:
 
 ```
-java --module-path /usr/share/openjfx/lib --add-modules=javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web -jar Inverse-search-engine-for-PDF-files.jar
+java -jar Inverse-search-engine-for-PDF-files.jar
 ```
 
 ## User manual
