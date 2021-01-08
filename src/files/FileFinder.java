@@ -38,7 +38,7 @@ public class FileFinder implements Runnable{
                 .parallel()
                 .map(Path::toFile)
                 //.peek(e -> System.out.println(e.getAbsolutePath()))
-                .filter(e -> e.getAbsolutePath().endsWith(".pdf") || e.getAbsolutePath().endsWith(".PDF"))
+                .filter(e -> e.getAbsolutePath().toLowerCase().endsWith(".pdf"))
                 .forEach(e -> {
                     try {
                         files.put(e);
