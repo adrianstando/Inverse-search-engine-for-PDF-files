@@ -221,7 +221,7 @@ public class AppController {
         });
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("app_files/error.png"));
+        stage.getIcons().add(new Image("/resources/error.png"));
 
         alert.showAndWait();
     }
@@ -252,7 +252,7 @@ public class AppController {
         });
 
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("app_files/load.png"));
+        stage.getIcons().add(new Image("/resources/load.png"));
 
         Task<Boolean> task = new Task<Boolean>() {
             @Override
