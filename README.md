@@ -36,11 +36,11 @@ The app uses by default [PorterStemmer](https://opennlp.apache.org/docs/1.7.2/ap
 
 4. You will see results below sorted by the number of occurences. The file name is displayed in blue and it's path in black below. Note that text in blue is hyperlink and if you click it, the corresponding file opens.
 
-![Results](/images/results.j)
+![Results](/images/results.jpg)
 
 5. You can also write created index to file by clicking **Write index to file** button. Next time you want to search something in the same path, you can just simply load created index from file by clicking **Read index from file**.
 
-![Saving and loading index](/images/saving_and_loading_index.j)
+![Saving and loading index](/images/saving_and_loading_index.jpg)
 
 ## Project purpose
 
