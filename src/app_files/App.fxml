@@ -22,5 +22,6 @@
       <Label fx:id="currentIndexTextField" layoutX="220.0" layoutY="75.0" prefHeight="18.0" prefWidth="369.0" text="Current index" />
       <Label fx:id="currentIndexPathField" layoutX="220.0" layoutY="95.0" prefHeight="18.0" prefWidth="352.0" text="Path: NONE" />
       <Label fx:id="currentIndexEnglishStemmerField" layoutX="220.0" layoutY="114.0" prefHeight="18.0" prefWidth="352.0" text="English Stemmer: NONE" />
+      <Label fx:id="resultText" layoutX="24.0" layoutY="235.0" prefHeight="18.0" prefWidth="476.0" />
    </children>
 </Pane>

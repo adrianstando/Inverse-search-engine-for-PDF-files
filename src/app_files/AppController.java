@@ -36,6 +36,7 @@ public class AppController {
     public Label currentIndexTextField;
     public Label currentIndexPathField;
     public Label currentIndexEnglishStemmerField;
+    public Label resultText;
 
     private Controller controller = new Controller(true);
     private boolean indexLoaded = false;
@@ -148,6 +149,7 @@ public class AppController {
 
         searchResults = controller.search(input, author);
         updatePagination();
+        updateResultLabelText(searchResults.size());
     }
 
     /**
@@ -303,6 +305,14 @@ public class AppController {
             currentIndexEnglishStemmerField.setText("English Stemmer: ENABLED");
         } else {
             currentIndexEnglishStemmerField.setText("English Stemmer: DISABLED");
+        }
+    }
+
+    private void updateResultLabelText(int numberOfResults){
+        if (numberOfResults == 1){
+            resultText.setText("Found 1 result.");
+        } else {
+            resultText.setText("Found " + numberOfResults + " results.");
         }
     }
 
