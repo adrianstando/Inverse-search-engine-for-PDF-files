@@ -110,9 +110,14 @@ public class AppController {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("SER files (*.ser)", "*.ser");
         fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialFileName("*.ser");
         File file = fileChooser.showSaveDialog(null);
 
         if(!(file == null)){
+            if (!file.getName().endsWith(".ser")){
+                generateErrorAlert(file.getName() + " has invalid file extension. \nCorrect file extension is *.ser.");
+                return;
+            }
             generateWaitingAlertAndDoTask("Writing index to file",
                     "The index is being written to path: \n" + file.getAbsolutePath(),
                     "Error during writing index to file!",
