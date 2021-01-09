@@ -1,4 +1,4 @@
-package tests;
+package tests.java;
 
 
 import main.java.inverted_index_search_engine.files.FileContent;
@@ -81,7 +81,7 @@ class InvertedIndexTest {
 
     @Test
     void runWholeProcedureWithFewThreads(){
-        String pathZero = "./src/tests/testFiles";
+        String pathZero = "./src/tests/resources";
         int numberOfReadingThreads = 2;
         int numberOfIndexingThreads = 3;
 
@@ -140,14 +140,14 @@ class InvertedIndexTest {
         assertTrue(authorDictionary.getDictionary().containsKey("author 1"));
         assertTrue(authorDictionary.getDictionary().containsKey("author 2"));
 
-        assertEquals(Arrays.stream(new String[] {"./src/tests/testFiles/folder2/test1.pdf"}).collect(Collectors.toSet()),
+        assertEquals(Arrays.stream(new String[] {"./src/tests/resources/folder2/test1.pdf"}).collect(Collectors.toSet()),
                 authorDictionary.getFilesWith("author 2"));
 
-        assertEquals(Arrays.stream(new String[] {"./src/tests/testFiles/folder1/test.pdf"}).collect(Collectors.toSet()),
+        assertEquals(Arrays.stream(new String[] {"./src/tests/resources/folder1/test.pdf"}).collect(Collectors.toSet()),
                 authorDictionary.getFilesWith("author 1"));
 
-        assertEquals(1, wordsDictionary.getPositionsOfWordInPath(stemWord("dursley"), "./src/tests/testFiles/folder1/test.pdf").size());
-        assertEquals(2, wordsDictionary.getPositionsOfWordInPath(stemWord("boulevard"), "./src/tests/testFiles/folder2/test1.pdf").size());
+        assertEquals(1, wordsDictionary.getPositionsOfWordInPath(stemWord("dursley"), "./src/tests/resources/folder1/test.pdf").size());
+        assertEquals(2, wordsDictionary.getPositionsOfWordInPath(stemWord("boulevard"), "./src/tests/resources/folder2/test1.pdf").size());
 
         assertEquals(Thread.State.TERMINATED, fileFinderThread.getState());
         for(Thread thread : fileReaderThreads){
@@ -160,7 +160,7 @@ class InvertedIndexTest {
 
     @Test
     void checkStemming(){
-        String pathZero = "./src/tests/testFiles/folder3";
+        String pathZero = "./src/tests/resources/folder3";
         int numberOfReadingThreads = 2;
         int numberOfIndexingThreads = 3;
 
@@ -219,7 +219,7 @@ class InvertedIndexTest {
         assertEquals(19, wordsDictionary.getDictionary().keySet().size());
 
         assertEquals(2, wordsDictionary.getDictionary().get(stemWord("alone")).
-                getPositionsOfTheWordInFile("./src/tests/testFiles/folder3/x.pdf").size());
+                getPositionsOfTheWordInFile("./src/tests/resources/folder3/x.pdf").size());
     }
 
 

@@ -1,4 +1,4 @@
-package tests;
+package tests.java;
 
 
 import main.java.inverted_index_search_engine.files.FileContent;
@@ -24,7 +24,7 @@ class FileReaderTest {
         BlockingQueue<FileContent> filesContent = new LinkedBlockingQueue<>();
         int intPutExtraPoison = 2;
 
-        FileFinder fileFinder = new FileFinder("./src/tests/testFiles", 1,  files);
+        FileFinder fileFinder = new FileFinder("./src/tests/resources", 1,  files);
 
         Thread thread = new Thread(fileFinder);
         thread.start();
@@ -64,7 +64,7 @@ class FileReaderTest {
         int intPutExtraPoison = 2;
         int numberOfReadingThreads = 2;
 
-        FileFinder fileFinder = new FileFinder("./src/tests/testFiles", numberOfReadingThreads,  files);
+        FileFinder fileFinder = new FileFinder("./src/tests/resources", numberOfReadingThreads,  files);
 
         Thread thread = new Thread(fileFinder);
         thread.start();
@@ -94,9 +94,9 @@ class FileReaderTest {
 
 
         List<FileContent> list = new ArrayList<>(filesContent);
-        File file1 = new File("./src/tests/testFiles/folder1/test.pdf");
-        File file2 = new File("./src/tests/testFiles/folder2/test1.pdf");
-        File file3 = new File("./src/tests/testFiles/folder3/x.pdf");
+        File file1 = new File("./src/tests/resources/folder1/test.pdf");
+        File file2 = new File("./src/tests/resources/folder2/test1.pdf");
+        File file3 = new File("./src/tests/resources/folder3/x.pdf");
         File filePoison = new File(poison);
 
         int k = 0;
@@ -174,7 +174,7 @@ class FileReaderTest {
         int intPutExtraPoison = 2;
         int numberOfReadingThreads = 2;
 
-        FileFinder fileFinder = new FileFinder("./src/tests/testFiles", numberOfReadingThreads,  files);
+        FileFinder fileFinder = new FileFinder("./src/tests/resources", numberOfReadingThreads,  files);
 
         Thread thread = new Thread(fileFinder);
         thread.start();

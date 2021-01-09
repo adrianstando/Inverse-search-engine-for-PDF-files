@@ -1,4 +1,4 @@
-package tests;
+package tests.java;
 
 import main.java.inverted_index_search_engine.controller.Controller;
 import main.java.inverted_index_search_engine.indexing.AuthorDictionary;
@@ -13,20 +13,20 @@ class ControllerTest {
     @Test
     void writeAndReadObjectsTest(){
         Controller controller = new Controller(true);
-        controller.createIndex("./src/tests/testFiles");
+        controller.createIndex("./src/tests/resources");
 
         boolean b;
 
-        b = controller.writeDictionariesToFile("./src/tests/testFiles/dictionaries.ser");
+        b = controller.writeDictionariesToFile("./src/tests/resources/dictionaries.ser");
         assertTrue(b);
 
         WordsDictionary wordsDictionary1 = controller.getWordsDictionary();
         AuthorDictionary authorDictionary1 = controller.getAuthorDictionary();
 
         Controller controller2 = new Controller(true);
-        controller2.createIndex("./src/tests/testFiles");
+        controller2.createIndex("./src/tests/resources");
 
-        b = controller2.readDictionariesFromFile("./src/tests/testFiles/dictionaries.ser");
+        b = controller2.readDictionariesFromFile("./src/tests/resources/dictionaries.ser");
         assertTrue(b);
 
         WordsDictionary wordsDictionary2 = controller2.getWordsDictionary();
@@ -41,7 +41,7 @@ class ControllerTest {
     @Test
     void readFromWrongFile(){
         Controller controller = new Controller(true);
-        boolean b = controller.readDictionariesFromFile("./src/tests/testFiles/x.ser");
+        boolean b = controller.readDictionariesFromFile("./src/tests/resources/x.ser");
         assertFalse(b);
 
         assertNull(controller.getCurrentPath());

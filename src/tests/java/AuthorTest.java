@@ -1,7 +1,7 @@
-package tests;
+package tests.java;
 
 
-import main.java.inverted_index_search_engine.indexing.Word;
+import main.java.inverted_index_search_engine.indexing.Author;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -11,24 +11,19 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WordTest {
+class AuthorTest {
     @Test
-    void wordTest(){
+    void authorTest(){
         List<String> list1 = Arrays.stream(new String[] {"a", "b", "c", "d"}).collect(Collectors.toList());
         List<String> list2 = Arrays.stream(new String[] {"e", "f", "g", "h"}).collect(Collectors.toList());
 
-        List<Integer> listInteger1 = Arrays.stream(new Integer[] {1, 3, 5, 7}).collect(Collectors.toList());
-        List<Integer> listInteger2 = Arrays.stream(new Integer[] {18, 10, 12, 14}).collect(Collectors.toList());
-
-        Word word = new Word("VeryDifficultWord");
+        Author author = new Author("imię i nazwisko autora");
 
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 for(String elem : list1){
-                    for (Integer x : listInteger1) {
-                        word.add(elem, x);
-                    }
+                    author.add(elem);
                 }
             }
         });
@@ -37,9 +32,7 @@ class WordTest {
             @Override
             public void run() {
                 for(String elem : list2){
-                    for (Integer x : listInteger2) {
-                        word.add(elem, x);
-                    }
+                    author.add(elem);
                 }
             }
         });
@@ -54,23 +47,12 @@ class WordTest {
             e.printStackTrace();
         }
 
-        Set<String> set = word.getFilesConnectedWith();
+        Set<String> set = author.getFilesConnectedWith();
         for (String elem : list1){
             assertTrue(set.contains(elem));
         }
         for (String elem : list2){
             assertTrue(set.contains(elem));
         }
-
-        for(String p : set) {
-            if (list1.contains(p)){
-                assertEquals(word.getPositionsOfTheWordInFile(p), listInteger1);
-            } else {
-                assertEquals(word.getPositionsOfTheWordInFile(p), listInteger2);
-            }
-
-        }
-
     }
-
 }

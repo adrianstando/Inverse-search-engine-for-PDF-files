@@ -1,4 +1,4 @@
-package tests;
+package tests.java;
 
 
 import main.java.inverted_index_search_engine.indexing.Author;

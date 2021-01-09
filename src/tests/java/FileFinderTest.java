@@ -1,4 +1,4 @@
-package tests;
+package tests.java;
 
 
 import main.java.inverted_index_search_engine.files.FileFinder;
@@ -18,7 +18,7 @@ class FileFinderTest {
     void findFiles(){
         BlockingQueue<File> files = new LinkedBlockingQueue<>();
 
-        FileFinder fileFinder = new FileFinder("./src/tests/testFiles", 1,  files);
+        FileFinder fileFinder = new FileFinder("./src/tests/resources", 1,  files);
 
         Thread thread = new Thread(fileFinder);
         thread.start();
@@ -32,8 +32,8 @@ class FileFinderTest {
         ArrayList<File> list = new ArrayList<>(files);
         assertEquals(4, list.size()); // three files plus poison pill
 
-        File file1 = new File("./src/tests/testFiles/folder1/test.pdf");
-        File file2 = new File("./src/tests/testFiles/folder2/test1.pdf");
+        File file1 = new File("./src/tests/resources/folder1/test.pdf");
+        File file2 = new File("./src/tests/resources/folder2/test1.pdf");
         File filePoison = new File(poison);
 
         assertTrue(list.contains(file1));
@@ -46,7 +46,7 @@ class FileFinderTest {
     void findFilesMoreThreads(){
         BlockingQueue<File> files = new LinkedBlockingQueue<>();
 
-        FileFinder fileFinder = new FileFinder("./src/tests/testFiles", 3,  files);
+        FileFinder fileFinder = new FileFinder("./src/tests/resources", 3,  files);
 
         Thread thread = new Thread(fileFinder);
         thread.start();
@@ -60,8 +60,8 @@ class FileFinderTest {
         ArrayList<File> list = new ArrayList<>(files);
         assertEquals(6, list.size()); // three files plus three poison pills
 
-        File file1 = new File("./src/tests/testFiles/folder1/test.pdf");
-        File file2 = new File("./src/tests/testFiles/folder2/test1.pdf");
+        File file1 = new File("./src/tests/resources/folder1/test.pdf");
+        File file2 = new File("./src/tests/resources/folder2/test1.pdf");
         File filePoison = new File(poison);
 
         assertTrue(list.contains(file1));
