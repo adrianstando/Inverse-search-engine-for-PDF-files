@@ -21,7 +21,7 @@ To run application on Windows, just open `Inverse-search-engine-for-PDF-files.ex
 
 On Windows, so as to enable correct scalling, you should do the following:
 
-1. Right click on `Inverse-search-engine-for-PDF-files.exe` -> `Properties` -> `Comptability` -> `Override high DPI scalling behavoiur `
+1. Right click on `Inverse-search-engine-for-PDF-files.exe` -> `Properties` -> `Comptability` -> `Override high DPI scalling behaviour`
 
 2. In `Scaling performed by:` choose `System`.
 
