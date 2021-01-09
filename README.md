@@ -11,7 +11,7 @@ The app was created mainly for pdf files in English, but you can use it for any 
 
 The final files are located in `out` folder.
 
-To run application on Linux, type in in following command:
+To run application on Linux, type in the following command:
 
 ```
 java -jar Inverse-search-engine-for-PDF-files.jar
@@ -19,7 +19,7 @@ java -jar Inverse-search-engine-for-PDF-files.jar
 
 To run application on Windows, just open `Inverse-search-engine-for-PDF-files.exe` file.
 
-On Windows, so as to enable scalling, you should do the following:
+On Windows, so as to enable correct scalling, you should do the following:
 
 1. Right click on `Inverse-search-engine-for-PDF-files.exe` -> `Properties` -> `Comptability` -> `Override high DPI scalling behavoiur `
 
