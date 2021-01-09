@@ -32,7 +32,7 @@ On Windows, so as to enable correct scalling, you should do the following:
 ![GUI](/images/GUI.jpg)
 
 2. Firstly, you need to build index. Click button `Choose path to index` to choose starting path. 
-The app uses by default [PorterStemmer](https://opennlp.apache.org/docs/1.7.2/apidocs/opennlp-tools/opennlp/tools/stemmer/PorterStemmer.html) library for [word stemming](https://en.wikipedia.org/wiki/Stemming). You can disable this option by selecting appropriate box (you have to do it before choosing starting path).
+The app uses by default [PorterStemmer](https://tartarus.org/martin/PorterStemmer/) ([read more](http://snowball.tartarus.org/algorithms/porter/stemmer.html)) library for [word stemming](https://en.wikipedia.org/wiki/Stemming). You can disable this option by selecting appropriate box (you have to do it before choosing starting path).
 
 ![Building index](/images/building_index.jpg)
 
