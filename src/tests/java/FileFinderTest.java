@@ -18,7 +18,7 @@ class FileFinderTest {
     void findFiles(){
         BlockingQueue<File> files = new LinkedBlockingQueue<>();
 
-        FileFinder fileFinder = new FileFinder("./src/tests/resources", 1,  files);
+        FileFinder fileFinder = new FileFinder("./src/tests/resources", 1,  files, 200);
 
         Thread thread = new Thread(fileFinder);
         thread.start();
@@ -46,7 +46,7 @@ class FileFinderTest {
     void findFilesMoreThreads(){
         BlockingQueue<File> files = new LinkedBlockingQueue<>();
 
-        FileFinder fileFinder = new FileFinder("./src/tests/resources", 3,  files);
+        FileFinder fileFinder = new FileFinder("./src/tests/resources", 3,  files, 200);
 
         Thread thread = new Thread(fileFinder);
         thread.start();

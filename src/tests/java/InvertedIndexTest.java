@@ -90,7 +90,7 @@ class InvertedIndexTest {
         BlockingQueue<FileContent> filesContent = new LinkedBlockingQueue<>();
 
 
-        FileFinder fileFinder = new FileFinder(pathZero, numberOfReadingThreads, files);
+        FileFinder fileFinder = new FileFinder(pathZero, numberOfReadingThreads, files, 200);
         Thread fileFinderThread = new Thread(fileFinder);
 
         Thread[] fileReaderThreads = new Thread[numberOfReadingThreads];
@@ -169,7 +169,7 @@ class InvertedIndexTest {
         BlockingQueue<FileContent> filesContent = new LinkedBlockingQueue<>();
 
 
-        FileFinder fileFinder = new FileFinder(pathZero, numberOfReadingThreads, files);
+        FileFinder fileFinder = new FileFinder(pathZero, numberOfReadingThreads, files, 200);
         Thread fileFinderThread = new Thread(fileFinder);
 
         Thread[] fileReaderThreads = new Thread[numberOfReadingThreads];

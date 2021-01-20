@@ -51,16 +51,37 @@ public class Controller {
      * @param pathZero
      */
     public void createIndex(String pathZero){
-        // set number of threads
-        int numberOfReadingThreads = 2;
-        int numberOfIndexingThreads = 4;
+
+        // number of threads - read from config.properties file
+        int numberOfReadingThreads;
+        int numberOfIndexingThreads;
+        int maxFileSizeInMb;
+
+        Properties properties = new Properties();
+        try {
+            properties.load(getClass().getResourceAsStream("/main/resources/config.properties"));
+
+            numberOfReadingThreads = Integer.parseInt(properties.getProperty("numberOfReadingThreads", "2"));
+            numberOfIndexingThreads = Integer.parseInt(properties.getProperty("numberOfIndexingThreads", "4"));
+            maxFileSizeInMb = Integer.parseInt(properties.getProperty("maxSizeOfPdfFileInMb", "200"));
+
+            numberOfReadingThreads = Math.max(1, numberOfReadingThreads);
+            numberOfIndexingThreads = Math.max(1, numberOfIndexingThreads);
+            maxFileSizeInMb = Math.max(0, maxFileSizeInMb);
+            System.out.println(maxFileSizeInMb);
+        } catch (IOException e) {
+            // default values in case of exception
+            numberOfReadingThreads = 2;
+            numberOfIndexingThreads = 4;
+            maxFileSizeInMb = 200;
+        }
 
         // initialize queues
-        BlockingQueue<File> files = new ArrayBlockingQueue<>(20);
+        BlockingQueue<File> files = new LinkedBlockingQueue<>();
         BlockingQueue<FileContent> filesContent = new LinkedBlockingQueue<>();
 
         // and program creates and starts threads
-        FileFinder fileFinder = new FileFinder(pathZero, numberOfReadingThreads, files);
+        FileFinder fileFinder = new FileFinder(pathZero, numberOfReadingThreads, files, maxFileSizeInMb);
         Thread fileFinderThread = new Thread(fileFinder);
 
         Thread[] fileReaderThreads = new Thread[numberOfReadingThreads];

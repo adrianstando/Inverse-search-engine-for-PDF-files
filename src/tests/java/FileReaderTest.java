@@ -24,7 +24,7 @@ class FileReaderTest {
         BlockingQueue<FileContent> filesContent = new LinkedBlockingQueue<>();
         int intPutExtraPoison = 2;
 
-        FileFinder fileFinder = new FileFinder("./src/tests/resources", 1,  files);
+        FileFinder fileFinder = new FileFinder("./src/tests/resources", 1,  files, 200);
 
         Thread thread = new Thread(fileFinder);
         thread.start();
@@ -64,7 +64,7 @@ class FileReaderTest {
         int intPutExtraPoison = 2;
         int numberOfReadingThreads = 2;
 
-        FileFinder fileFinder = new FileFinder("./src/tests/resources", numberOfReadingThreads,  files);
+        FileFinder fileFinder = new FileFinder("./src/tests/resources", numberOfReadingThreads,  files, 200);
 
         Thread thread = new Thread(fileFinder);
         thread.start();
@@ -174,7 +174,7 @@ class FileReaderTest {
         int intPutExtraPoison = 2;
         int numberOfReadingThreads = 2;
 
-        FileFinder fileFinder = new FileFinder("./src/tests/resources", numberOfReadingThreads,  files);
+        FileFinder fileFinder = new FileFinder("./src/tests/resources", numberOfReadingThreads,  files, 200);
 
         Thread thread = new Thread(fileFinder);
         thread.start();

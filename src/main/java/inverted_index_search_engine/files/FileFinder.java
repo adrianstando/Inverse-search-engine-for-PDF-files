@@ -16,13 +16,15 @@ public class FileFinder implements Runnable{
     private String pathZero;
     private BlockingQueue<File> files;
     private int numberOfReaderThreads;
+    private int maxFileSizeInMb;
 
     private final String poison = "THIS_IS_THE_END.non_existing_extension";
 
-    public FileFinder(String pathZero, int numberOfReaderThreads, BlockingQueue<File> files){
+    public FileFinder(String pathZero, int numberOfReaderThreads, BlockingQueue<File> files, int maxFileSizeInMb){
         this.pathZero = pathZero;
         this.files = files;
         this.numberOfReaderThreads = numberOfReaderThreads;
+        this.maxFileSizeInMb = Math.max(0, maxFileSizeInMb);
     }
 
     /**
@@ -39,6 +41,7 @@ public class FileFinder implements Runnable{
                 .map(Path::toFile)
                 //.peek(e -> System.out.println(e.getAbsolutePath()))
                 .filter(e -> e.getAbsolutePath().toLowerCase().endsWith(".pdf"))
+                .filter(e -> sizeOfFile(e) <= maxFileSizeInMb)
                 .forEach(e -> {
                     try {
                         files.put(e);
@@ -66,5 +69,12 @@ public class FileFinder implements Runnable{
             }
         }
 
+    }
+
+    /**
+     * Function returns size of *.pdf in MB
+     */
+    private double sizeOfFile(File file){
+        return (double) file.length() / (1024 * 1024);
     }
 }
