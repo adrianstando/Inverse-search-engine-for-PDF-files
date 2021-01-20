@@ -65,8 +65,11 @@ public class InvertedIndex implements Runnable{
                         .forEach(s -> wordsDictionary.add(removeNewLineChar(s), path, linesIterator(s)));
             }
 
+            String[] authors = fileContent.getAuthor().split(", ");
+            for (String oneOfCoAuthors : authors){
+                authorDictionary.add(oneOfCoAuthors, path);
+            }
 
-            authorDictionary.add(fileContent.getAuthor(), path);
         }
 
         intPositionInFile = 0;
