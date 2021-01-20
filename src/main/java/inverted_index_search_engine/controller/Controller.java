@@ -68,7 +68,6 @@ public class Controller {
             numberOfReadingThreads = Math.max(1, numberOfReadingThreads);
             numberOfIndexingThreads = Math.max(1, numberOfIndexingThreads);
             maxFileSizeInMb = Math.max(0, maxFileSizeInMb);
-            System.out.println(maxFileSizeInMb);
         } catch (IOException e) {
             // default values in case of exception
             numberOfReadingThreads = 2;
