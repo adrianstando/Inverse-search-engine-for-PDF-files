@@ -48,6 +48,12 @@ The app uses by default [Porter stemmer](https://tartarus.org/martin/PorterStemm
 
 ![Saving and loading index](/images/saving_and_loading_index.jpg)
 
+## Additional configuration
+
+By default, the application only indexes files which are less than 200 MB. Moreover, it starts two reading threads and four indexing threads.
+
+In order to change these values, type in the new ones in the following file: `./main/resources/config.properties` on the appropriate lines.
+
 ## Project purpose
 
 It is the final project created during Java course at Data Science studies at MiNI, Warsaw University of Technology.
