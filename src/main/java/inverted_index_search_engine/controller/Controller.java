@@ -11,8 +11,10 @@ import org.tartarus.snowball.ext.PorterStemmer;
 
 
 import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
@@ -32,16 +34,27 @@ public class Controller {
 
     private PorterStemmer porterStemmer = new PorterStemmer();
 
-    private static List<String> commonWords = Arrays.stream(new String [] {"a", "able", "about", "all", "an", "and", "any", "are", "aren't", "isn't", "as", "at", "be", "been", "by",
-            "can", "can't", "could", "couldn't", "do", "does", "doesn't", "don't", "down", "has", "hasn't", "have", "haven't", "he", "here", "his", "how",
-            "I", "I'm", "if", "in", "is", "it", "its", "it's", "just", "like", "many", "much", "no", "not", "now", "of", "on", "one",
-            "or", "she", "so", "than", "that", "the", "them", "then", "there", "these", "they", "this", "those", "to", "too", "up", "very", "was", "we", "were",
-            "what", "when", "where", "which", "who", "will", "won't", "would", "you", "you'd", "you'll"}).map(String::toLowerCase)
-            .map(r -> r.replaceAll("[^\\p{IsAlphabetic})]+", "")).collect(Collectors.toList());
+    private List<String> commonWords;
 
 
     public Controller(boolean enableStemmer){
         this.enableStemmer = enableStemmer;
+
+        // read common words from resource file
+        try {
+            URL url = getClass().getResource("/main/resources/commonWords.txt");
+            //Files.lines(Paths.get(url.getPath())).forEach(x -> System.out.println(x));
+
+            List<String> readCommonWords = Files.lines(Paths.get(url.getPath()))
+                    .map(String::toLowerCase)
+                    .map(r -> r.replaceAll("[^\\p{IsAlphabetic})]+", ""))
+                    .filter(e -> !(e.equals(" ") || e.equals("") || e.equals("\n")))
+                    .collect(Collectors.toList());
+
+            commonWords = readCommonWords;
+        } catch (IOException e) {
+            commonWords = new ArrayList<>();
+        }
     }
 
      //Creating index part.
